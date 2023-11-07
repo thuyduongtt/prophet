@@ -62,10 +62,10 @@ SPLIT_TO_IMGS = {
     'aoktrain': 'train2017',
     'aokval': 'val2017',
     'aoktest': 'test2017',
-    'unbalanced_train': 'unbalanced/train',
-    'unbalanced_test': 'unbalanced/test',
-    'balanced_10_train': 'balanced_10/train',
-    'balanced_10_test': 'balanced_10/test'
+    'unbalanced_train': 'unbalanced_train',
+    'unbalanced_test': 'unbalanced_test',
+    'balanced_10_train': 'balanced_10_train',
+    'balanced_10_test': 'balanced_10_test'
 }
 
 

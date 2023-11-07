@@ -5,15 +5,14 @@
 
 import os
 
+
 class PATH:
     def __init__(self):
-
         self.LOG_ROOT = 'outputs/logs/'
         self.CKPT_ROOT = 'outputs/ckpts/'
         self.RESULTS_ROOT = 'outputs/results/'
         self.DATASET_ROOT = 'datasets/'
         self.ASSETS_ROOT = 'assets/'
-
 
         self.IMAGE_DIR = {
             'train2014': self.DATASET_ROOT + 'coco2014/train2014/',
@@ -22,6 +21,10 @@ class PATH:
             'train2017': self.DATASET_ROOT + 'coco2017/train2017/',
             'val2017': self.DATASET_ROOT + 'coco2017/val2017/',
             'test2017': self.DATASET_ROOT + 'coco2017/test2017/',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/train',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/test',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/train',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/test',
         }
 
         self.FEATS_DIR = {
@@ -60,5 +63,3 @@ class PATH:
             'ok': self.ASSETS_ROOT + 'answer_dict_okvqa.json',
             'aok': self.ASSETS_ROOT + 'answer_dict_aokvqa.json',
         }
-
-
