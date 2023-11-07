@@ -4,6 +4,7 @@
 # ------------------------------------------------------------------------------ #
 
 import os, sys
+
 sys.path.append(os.getcwd())
 
 import glob, re, math, time, datetime
@@ -19,6 +20,8 @@ from pathlib import Path
 from configs.task_cfgs import Cfgs
 from configs.task_to_split import *
 from tools.transforms import _transform
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 @torch.no_grad()
@@ -44,7 +47,7 @@ class ExtractModel:
         self.backbone = encoder
 
         self.backbone.cuda().eval()
-    
+
     @torch.no_grad()
     def __call__(self, img):
         x = self.backbone(img)
@@ -66,7 +69,7 @@ def main(__C, dataset):
     print('total images:', len(img_path_list))
 
     # load model
-    clip_model, _ = clip.load(__C.CLIP_VERSION, device='cpu')
+    clip_model, _ = clip.load(__C.CLIP_VERSION, device=device)
     img_encoder = clip_model.visual
 
     model = ExtractModel(img_encoder)
@@ -83,7 +86,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('Tool for extracting CLIP image features.')
     parser.add_argument('--dataset', dest='dataset', help='dataset name, e.g., ok, aok', type=str, required=True)
     parser.add_argument('--gpu', dest='GPU', help='gpu id', type=str, default='0')
-    parser.add_argument('--clip_model', dest='CLIP_VERSION', help='clip model name or local model checkpoint path', type=str, default='RN50x64')
+    parser.add_argument('--clip_model', dest='CLIP_VERSION', help='clip model name or local model checkpoint path',
+                        type=str, default='RN50x64')
     parser.add_argument('--img_resolution', dest='IMG_RESOLUTION', help='image resolution', type=int, default=512)
     args = parser.parse_args()
     __C = Cfgs(args)
