@@ -10,5 +10,4 @@ case $1 in
 esac
 
 
-DS_DIR="../dataset/${DS_NAME}"
-bash scripts/extract_img_feats.sh --dataset $DS_DIR
+bash scripts/extract_img_feats.sh --dataset $DS_NAME
