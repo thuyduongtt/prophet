@@ -12,7 +12,7 @@ bash scripts/extract_img_feats.sh --dataset $DS_NAME
 
 
 # ==============================
-# ===== STAGE 1
+# ===== STAGE ONE
 # 3. Download the pre-trained model (on OK-VQA)
 # wget https://awma1-my.sharepoint.com/personal/yuz_l0_tn/Documents/share/prophet/ckpts/mcan_pt_okvqa.pkl -P ckpts/
 cd ckpts/
@@ -33,7 +33,7 @@ bash scripts/heuristics_gen.sh \
 
 
 # ==============================
-# ===== STAGE 2
+# ===== STAGE TWO
 # 6. Prompt GPT-3 with answer heuristics and generate better answers
 $ bash scripts/prompt.sh \
     --task ok --version ${DS_NAME}_prompt_1 \
