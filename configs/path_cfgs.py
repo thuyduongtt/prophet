@@ -33,6 +33,10 @@ class PATH:
             'train2017': self.DATASET_ROOT + 'coco2017_feats/train2017/',
             'val2017': self.DATASET_ROOT + 'coco2017_feats/val2017/',
             'test2017': self.DATASET_ROOT + 'coco2017_feats/test2017/',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced_feats/train/',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced_feats/test/',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10_feats/train/',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10_feats/test/',
         }
 
         self.QUESTION_PATH = {
@@ -45,6 +49,10 @@ class PATH:
             'aoktrain': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_train.json',
             'aokval': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_val.json',
             'aoktest': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_test.json',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/train.json',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/test.json',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/train.json',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/test.json',
         }
 
         self.ANSWER_PATH = {
@@ -56,10 +64,16 @@ class PATH:
             'oktest': self.DATASET_ROOT + 'okvqa/mscoco_val2014_annotations.json',
             'aoktrain': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_train.json',
             'aokval': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_val.json',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/train.json',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/test.json',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/train.json',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/test.json',
         }
 
         self.ANSWER_DICT_PATH = {
             'v2': self.ASSETS_ROOT + 'answer_dict_vqav2.json',
             'ok': self.ASSETS_ROOT + 'answer_dict_okvqa.json',
             'aok': self.ASSETS_ROOT + 'answer_dict_aokvqa.json',
+            'unbalanced': self.ASSETS_ROOT + 'answer_dict_unbalanced.json',
+            'balanced_10': self.ASSETS_ROOT + 'answer_dict_balanced_10.json',
         }

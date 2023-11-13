@@ -49,6 +49,24 @@ TASK_TO_SPLIT = {
             'eval_split': ['aoktest'],
         }
     },
+    'unbalanced': {
+        'pretrain': {
+            'train_split': ['unbalanced_train'],
+        },
+        'finetune': {
+            'train_split': ['unbalanced_train'],
+            'eval_split': ['unbalanced_test'],
+        }
+    },
+    'balanced_10': {
+        'pretrain': {
+            'train_split': ['balanced_10_train'],
+        },
+        'finetune': {
+            'train_split': ['balanced_10_train'],
+            'eval_split': ['balanced_10_test'],
+        }
+    },
 }
 TASK_TO_SPLIT = DictSafe(TASK_TO_SPLIT)
 

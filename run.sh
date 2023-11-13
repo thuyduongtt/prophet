@@ -14,4 +14,4 @@ esac
 # bash scripts/extract_img_feats.sh --dataset $DS_NAME
 
 # STAGE ONE - Step 4
-bash scripts/finetune.sh --task ok --version ${DS_NAME}_finetune_1 --pretrained_model ckpts/mcan_pt_okvqa.pkl
+bash scripts/finetune.sh --version ${DS_NAME}_finetune_1 --pretrained_model ckpts/mcan_pt_okvqa.pkl
