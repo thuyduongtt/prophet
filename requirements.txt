@@ -1,0 +1,15 @@
+pyyaml==6.0
+einops==0.6.0
+huggingface-hub==0.12.1
+openai==0.18.0
+opencv-python==4.5.5.64
+pillow==9.3.0
+pyyaml==6.0
+sentence-transformers==2.2.2
+sentencepiece==0.1.96
+tokenizers==0.11.6
+tqdm==4.63.0
+transformers==4.26.1
+git+https://github.com/openai/CLIP.git
+torch
+torchvision
