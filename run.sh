@@ -10,4 +10,5 @@ case $1 in
 esac
 
 
+# DATA PREPARATION - Step 2
 bash scripts/extract_img_feats.sh --dataset $DS_NAME

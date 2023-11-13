@@ -14,7 +14,11 @@ bash scripts/extract_img_feats.sh --dataset $DS_NAME
 # ==============================
 # ===== STAGE 1
 # 3. Download the pre-trained model (on OK-VQA)
-wget https://awma1-my.sharepoint.com/personal/yuz_l0_tn/Documents/share/prophet/ckpts/mcan_pt_okvqa.pkl -P ckpts/
+# wget https://awma1-my.sharepoint.com/personal/yuz_l0_tn/Documents/share/prophet/ckpts/mcan_pt_okvqa.pkl -P ckpts/
+cd ckpts/
+FILE_ID='18MfupIR77iHd_vJKaSNGYCTCMTojKcxc'
+gdown $ZIP_ID
+cd ..
 
 # 4. Start finetuning on the target dataset
 bash scripts/finetune.sh --task ok --version ${DS_NAME}_finetune_1 --pretrained_model ckpts/mcan_pt_okvqa.pkl
