@@ -22,8 +22,8 @@ class Cfgs(PATH):
         self.GPU = getattr(args, 'GPU', None)
         if self.GPU is not None:
             self.GPU_IDS = [int(i) for i in self.GPU.split(',')]
-            print(f'Avaliable GPUs: {torch.cuda.device_count()}')
-            print(f'Using GPU {self.GPU}')
+            # print(f'Avaliable GPUs: {torch.cuda.device_count()}')
+            # print(f'Using GPU {self.GPU}')
             self.CURRENT_GPU = self.GPU_IDS[0]
             torch.cuda.set_device(f'cuda:{self.CURRENT_GPU}')
             self.N_GPU = len(self.GPU_IDS)

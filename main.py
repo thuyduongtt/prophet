@@ -7,8 +7,6 @@ from evaluation.aokvqa_evaluate import AOKEvaluater
 from configs.task_cfgs import Cfgs
 from prophet import get_args, get_runner
 
-print('[1] Available GPUs:', torch.cuda.is_available(), torch.cuda.device_count())
-
 # parse cfgs and args
 args = get_args()
 __C = Cfgs(args)
