@@ -52,12 +52,25 @@ def extract_questions(path_to_ds_root, ds_name, split='train', limit=0):
         questions.append({
             'image_id': d['image_id'],
             'question_id': d['question_id'],
-            'question': d['question']
+            'question': d['question'],
+            'multiple_choices': d['choices']
         })
 
     with open(f'datasets/{ds_name}/{ds_name}_{split}_questions.json', 'w', encoding='utf-8') as f:
         json.dump({
             'created_at': datetime.now().isoformat(),
+            'info': {
+                'year': 2023,
+                'version': '1.0',
+                'description': ''
+            },
+            'task_type': 'Multiple Choice',
+            'data_type': ds_name,
+            'data_subtype': split,
+            'license': {
+                'url': '',
+                'name': ''
+            },
             'questions': questions
         }, f)
 
