@@ -20,5 +20,5 @@ esac
 bash scripts/heuristics_gen.sh \
     --task $DS_NAME \
     --version ${DS_NAME}_heuristics_1 \
-    --ckpt_path outputs/ckpts/${DS_NAME}_finetune_1/epoch_6.pkl \
+    --ckpt_path outputs/ckpts/${DS_NAME}_finetune_1/epoch6.pkl \
     --candidate_num 10 --example_num 100

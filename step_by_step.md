@@ -30,7 +30,7 @@ bash scripts/finetune.sh --version ${DS_NAME}_finetune_1 --pretrained_model ckpt
 # 5. Extract heuristic answers
 bash scripts/heuristics_gen.sh \
     --version ${DS_NAME}_heuristics_1
-    --ckpt_path outputs/ckpts/${DS_NAME}_finetune_1/epoch_6.pkl
+    --ckpt_path outputs/ckpts/${DS_NAME}_finetune_1/epoch6.pkl
     --candidate_num 10 --example_num 100
 # The extracted answer heuristics will be stored as candidates.json and examples.json in outputs/results/{version} directory.
 
