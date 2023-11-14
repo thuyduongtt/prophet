@@ -93,8 +93,10 @@ def extract_answer_dict(path_to_dataset, ds_name, split='train'):
             count_answer[ans] = 0
         count_answer[ans] += 1
 
-    selected_answers = [ans for ans in count_answer.keys() if count_answer[ans] >= 10]
-    removed_answers = [ans for ans in count_answer.keys() if count_answer[ans] < 10]
+    BOUND = 3  # see section 3.5 in this paper: https://arxiv.org/pdf/1708.02711.pdf
+
+    selected_answers = [ans for ans in count_answer.keys() if count_answer[ans] >= BOUND]
+    removed_answers = [ans for ans in count_answer.keys() if count_answer[ans] < BOUND]
 
     print('Total unique answers:', len(np.unique(all_answers)))
     print('Total selected answers:', len(selected_answers), '| removed answers:', len(removed_answers))
@@ -110,6 +112,6 @@ if __name__ == '__main__':
     parser.add_argument('--split', type=str, default='train')
     args = parser.parse_args()
 
-    extract_questions(args.path_to_ds, args.ds_name, args.split)
+    # extract_questions(args.path_to_ds, args.ds_name, args.split)
     # extract_answer_annotation(args.path_to_ds, args.ds_name, args.split)
-    # extract_answer_dict(args.path_to_ds, args.ds_name, args.split)
+    extract_answer_dict(args.path_to_ds, args.ds_name, args.split)
