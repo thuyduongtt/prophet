@@ -46,7 +46,7 @@ class CommonData:
             self.img_feat_path_list += glob.glob(feats_dir + '*.npz')
         self.imgid_to_path = {}
         for feat_path in self.img_feat_path_list:
-            img_id = int(feat_path.split('/')[-1].split('_')[-1].split('.')[0])
+            img_id = feat_path.split('/')[-1].split('_')[-1].split('.')[0]
             self.imgid_to_path[img_id] = feat_path
         # self.preprocess = _transform(__C.RESOLUTION)
         print(f'== Total image number: {len(self.imgid_to_path)}')
@@ -132,7 +132,7 @@ class DataSet(Data.Dataset):
         ques_ids = self.bert_tokenize(ques_str, __C.MAX_TOKEN)
 
         # Process image feature
-        img_id = int(ques_info['image_id'])
+        img_id = ques_info['image_id']
         img_feat = np.load(self.imgid_to_path[img_id])['x']
         assert img_feat.shape == (__C.IMG_FEAT_GRID, __C.IMG_FEAT_GRID, __C.IMG_FEAT_SIZE)
         img_feat = img_feat.reshape(-1, __C.IMG_FEAT_SIZE)
