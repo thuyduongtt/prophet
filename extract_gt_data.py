@@ -41,27 +41,31 @@ def stream_data(path_to_json_file, limit=0, start_at=0):
 
 
 # from this we get unbalanced_annotations.json and balanced_10_annotations.json
-def extract_questions(path_to_dataset, ds_name, split='train'):
-    json_data = stream_data(f'{path_to_dataset}/{split}.json')
+def extract_questions(path_to_ds_root, ds_name, split='train'):
+    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json')
     questions = []
 
     for d in json_data:
+        if len(d['answers']) == 0:
+            continue
         questions.append({
             'image_id': d['image_id'],
             'question_id': d['question_id'],
             'question': d['question']
         })
 
-    with open(f'assets/{ds_name}_{split}_questions.json', 'w', encoding='utf-8') as f:
+    with open(f'datasets/{ds_name}/{ds_name}_{split}_questions.json', 'w', encoding='utf-8') as f:
         json.dump(questions, f)
 
 
 # from this we get unbalanced_annotations.json and balanced_10_annotations.json
-def extract_answer_annotation(path_to_dataset, ds_name, split='train'):
-    json_data = stream_data(f'{path_to_dataset}/{split}.json')
+def extract_annotations(path_to_ds_root, ds_name, split='train'):
+    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json')
     answers = []
 
     for d in json_data:
+        if len(d['answers']) == 0:
+            continue
         answers.append({
             'image_id': d['image_id'],
             'question_id': d['question_id'],
@@ -71,16 +75,18 @@ def extract_answer_annotation(path_to_dataset, ds_name, split='train'):
             } for i in range(len(d['answers']))]
         })
 
-    with open(f'assets/{ds_name}_{split}_annotations.json', 'w', encoding='utf-8') as f:
+    with open(f'datasets/{ds_name}/{ds_name}_{split}_annotations.json', 'w', encoding='utf-8') as f:
         json.dump(answers, f)
 
 
 # from this we get answer_dict_unbalanced.json and answer_dict_balanced_10.json
-def extract_answer_dict(path_to_dataset, ds_name, split='train'):
-    json_data = stream_data(f'{path_to_dataset}/{split}.json')
+def extract_answer_dict(path_to_ds_root, ds_name, split='train'):
+    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json')
     all_answers = []
 
     for d in json_data:
+        if len(d['answers']) == 0:
+            continue
         all_answers += d['answers']
 
     print('Total answers:', len(all_answers))
@@ -106,13 +112,31 @@ def extract_answer_dict(path_to_dataset, ds_name, split='train'):
         json.dump(selected_answers, f)
 
 
+def auto_generate(task, path_to_ds_root):
+    if task == 'extract_questions':
+        extract_questions(path_to_ds_root, 'unbalanced', 'train')
+        extract_questions(path_to_ds_root, 'unbalanced', 'test')
+        extract_questions(path_to_ds_root, 'balanced_10', 'train')
+        extract_questions(path_to_ds_root, 'balanced_10', 'test')
+
+    elif task == 'extract_annotations':
+        extract_annotations(path_to_ds_root, 'unbalanced', 'train')
+        extract_annotations(path_to_ds_root, 'unbalanced', 'test')
+        extract_annotations(path_to_ds_root, 'balanced_10', 'train')
+        extract_annotations(path_to_ds_root, 'balanced_10', 'test')
+
+    elif task == 'extract_answer_dict':  # use train split only
+        extract_answer_dict(path_to_ds_root, 'unbalanced')
+        extract_answer_dict(path_to_ds_root, 'balanced_10')
+    else:
+        print('Invalid task:', task)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path_to_ds', type=str, required=True)
-    parser.add_argument('--ds_name', type=str, required=True)
-    parser.add_argument('--split', type=str, default='train')
+    parser.add_argument('--path_to_ds_root', type=str, required=True)
     args = parser.parse_args()
 
-    # extract_questions(args.path_to_ds, args.ds_name, args.split)
-    # extract_answer_annotation(args.path_to_ds, args.ds_name, args.split)
-    extract_answer_dict(args.path_to_ds, args.ds_name, args.split)
+    auto_generate('extract_questions', args.path_to_ds_root)
+    auto_generate('extract_annotations', args.path_to_ds_root)
+    auto_generate('extract_answer_dict', args.path_to_ds_root)

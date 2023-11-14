@@ -151,7 +151,7 @@ class DataSet(Data.Dataset):
                 ans_list = ans_info['direct_answers']
             else:
                 raise ValueError('Error: annotation format is not supported!')
-            assert type(ans_list[0]) == str, 'Error: answer format is not supported!'
+            assert type(ans_list[0]) == str, f'Error: answer format is not supported! Answer {ans_list[0]} has type {type(ans_list[0])}'
             ans_vec = soft_target(ans_list, self.ans_to_ix)
 
         return  torch.tensor(img_feat, dtype=torch.float), \
