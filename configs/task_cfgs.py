@@ -79,7 +79,7 @@ class Cfgs(PATH):
         # ----------------------
 
         self.TASK = getattr(args, 'TASK', 'ok')
-        assert self.TASK in ['ok', 'aok_val', 'aok_test']
+        assert self.TASK in ['ok', 'aok_val', 'aok_test', 'unbalanced', 'balanced_10']
 
         self.RUN_MODE = getattr(args, 'RUN_MODE', 'finetune')
         assert self.RUN_MODE in ['pretrain', 'finetune', 'finetune_test', 'heuristics', 'prompt']
