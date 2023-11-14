@@ -13,7 +13,7 @@ esac
 # bash scripts/extract_img_feats.sh --dataset $DS_NAME
 
 # STAGE ONE
-# Step 1
+# Step 3
 bash scripts/pretrain.sh --task $DS_NAME --version ${DS_NAME}_pretrain_1
 
 # Step 4
