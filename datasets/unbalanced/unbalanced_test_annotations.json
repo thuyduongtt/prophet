@@ -1,1 +1,141 @@
-{"created_at": "2023-11-14T16:30:52.683182", "annotations": [{"image_id": "VG_150274", "question_id": 138313, "answers": [{"answer_id": 1, "answer": "1934"}]}, {"image_id": "VG_150274", "question_id": 138314, "answers": [{"answer_id": 1, "answer": "circle"}]}, {"image_id": "VG_150274", "question_id": 138315, "answers": [{"answer_id": 1, "answer": "steel"}]}, {"image_id": "VG_150274", "question_id": 138316, "answers": [{"answer_id": 1, "answer": "long, thin object"}]}, {"image_id": "VG_150274", "question_id": 138317, "answers": [{"answer_id": 1, "answer": "woven fabric"}]}, {"image_id": "VG_150274", "question_id": 138318, "answers": [{"answer_id": 1, "answer": "glass"}]}, {"image_id": "VG_150274", "question_id": 138319, "answers": [{"answer_id": 1, "answer": "Soil of the Year"}]}, {"image_id": "VG_150274", "question_id": 138320, "answers": [{"answer_id": 1, "answer": "universe"}]}, {"image_id": "VG_150274", "question_id": 138321, "answers": [{"answer_id": 1, "answer": "astronomy"}]}, {"image_id": "VG_150274", "question_id": 138322, "answers": [{"answer_id": 1, "answer": "0.136"}]}]}
+{
+  "created_at": "2023-11-14T16:45:23.538216",
+  "info": {
+    "year": 2023,
+    "version": "1.0",
+    "description": ""
+  },
+  "task_type": "Open-Ended",
+  "data_type": "unbalanced",
+  "data_subtype": "test",
+  "license": {
+    "url": "",
+    "name": ""
+  },
+  "question_types": {
+    "1hop__vg": "1-hop, no scene graph, VG",
+    "2hop_sg_vg": "2-hop, with scene graph, VG"
+  },
+  "annotations": [
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "1hop__vg",
+      "question_id": 138313,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "1934"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "1hop__vg",
+      "question_id": 138314,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "circle"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138315,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "steel"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138316,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "long, thin object"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138317,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "woven fabric"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138318,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "glass"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138319,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "Soil of the Year"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138320,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "universe"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138321,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "astronomy"
+        }
+      ]
+    },
+    {
+      "image_id": "VG_150274",
+      "answer_type": "other",
+      "question_type": "2hop_sg_vg",
+      "question_id": 138322,
+      "answers": [
+        {
+          "answer_id": 1,
+          "answer": "0.136"
+        }
+      ]
+    }
+  ]
+}

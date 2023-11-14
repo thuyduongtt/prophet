@@ -79,12 +79,24 @@ def extract_questions(path_to_ds_root, ds_name, split='train', limit=0):
 def extract_annotations(path_to_ds_root, ds_name, split='train', limit=0):
     json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json', limit=limit)
     answers = []
+    question_types = {}
 
     for d in json_data:
         if len(d['answers']) == 0:
             continue
+
+        hop_str = f"{d['n_hop']}hop"
+        sg_str = 'sg' if d['has_scene_graph'] else ''
+        ds_str = d['dataset_name'].lower()
+
+        question_type = '_'.join([hop_str, sg_str, ds_str])
+        if question_type not in question_types:
+            question_types[question_type] = f"{d['n_hop']}-hop, {'with scene graph' if d['has_scene_graph'] else 'no scene graph'}, {d['dataset_name']}"
+
         answers.append({
             'image_id': d['image_id'],
+            'answer_type': 'other',
+            'question_type': question_type,
             'question_id': d['question_id'],
             'answers': [{
                 'answer_id': i + 1,
@@ -95,6 +107,19 @@ def extract_annotations(path_to_ds_root, ds_name, split='train', limit=0):
     with open(f'datasets/{ds_name}/{ds_name}_{split}_annotations.json', 'w', encoding='utf-8') as f:
         json.dump({
             'created_at': datetime.now().isoformat(),
+            'info': {
+                'year': 2023,
+                'version': '1.0',
+                'description': ''
+            },
+            'task_type': 'Open-Ended',  # 'Multiple Choice'
+            'data_type': ds_name,
+            'data_subtype': split,
+            'license': {
+                'url': '',
+                'name': ''
+            },
+            'question_types': question_types,
             'annotations': answers
         }, f)
 
@@ -160,4 +185,4 @@ if __name__ == '__main__':
 
     auto_generate('extract_questions', args.path_to_ds_root, limit=args.limit)
     auto_generate('extract_annotations', args.path_to_ds_root, limit=args.limit)
-    auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
+    # auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
