@@ -49,10 +49,10 @@ class PATH:
             'aoktrain': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_train.json',
             'aokval': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_val.json',
             'aoktest': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_test.json',
-            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/train.json',
-            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/test.json',
-            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/train.json',
-            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/test.json',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/unbalanced_train_questions.json',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/unbalanced_test_questions.json',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/balanced_10_train_questions.json',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/balanced_10_test_questions.json',
         }
 
         self.ANSWER_PATH = {
@@ -64,10 +64,10 @@ class PATH:
             'oktest': self.DATASET_ROOT + 'okvqa/mscoco_val2014_annotations.json',
             'aoktrain': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_train.json',
             'aokval': self.DATASET_ROOT + 'aokvqa/aokvqa_v1p0_val.json',
-            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/train.json',
-            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/test.json',
-            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/train.json',
-            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/test.json',
+            'unbalanced_train': self.DATASET_ROOT + 'unbalanced/unbalanced_train_annotations.json',
+            'unbalanced_test': self.DATASET_ROOT + 'unbalanced/unbalanced_test_annotations.json',
+            'balanced_10_train': self.DATASET_ROOT + 'balanced_10/balanced_10_train_annotations.json',
+            'balanced_10_test': self.DATASET_ROOT + 'balanced_10/balanced_10_test_annotations.json',
         }
 
         self.ANSWER_DICT_PATH = {
