@@ -46,7 +46,8 @@ class CommonData:
             self.img_feat_path_list += glob.glob(feats_dir + '*.npz')
         self.imgid_to_path = {}
         for feat_path in self.img_feat_path_list:
-            img_id = feat_path.split('/')[-1].split('_')[-1].split('.')[0]
+            # img_id = feat_path.split('/')[-1].split('_')[-1].split('.')[0]
+            img_id = feat_path.split('/')[-1].split('.')[0]
             self.imgid_to_path[img_id] = feat_path
         # self.preprocess = _transform(__C.RESOLUTION)
         print(f'== Total image number: {len(self.imgid_to_path)}')

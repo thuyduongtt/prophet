@@ -20,7 +20,6 @@ class MCANForFinetune(MCAN):
     def __init__(self, __C, answer_size, base_answer_size=3129):
         super().__init__(__C, base_answer_size)
 
-        print(answer_size, base_answer_size)
         self.proj1 = nn.Linear(__C.FLAT_OUT_SIZE, answer_size - base_answer_size)
 
     @torch.no_grad()

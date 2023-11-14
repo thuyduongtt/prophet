@@ -93,6 +93,7 @@ def extract_answer_dict(path_to_dataset, ds_name, split='train'):
             count_answer[ans] = 0
         count_answer[ans] += 1
 
+    # make sure the final number of answer is larger than 3129 !!!
     BOUND = 3  # see section 3.5 in this paper: https://arxiv.org/pdf/1708.02711.pdf
 
     selected_answers = [ans for ans in count_answer.keys() if count_answer[ans] >= BOUND]
