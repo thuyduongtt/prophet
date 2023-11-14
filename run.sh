@@ -18,6 +18,7 @@ esac
 
 # Step 5
 bash scripts/heuristics_gen.sh \
-    --version ${DS_NAME}_heuristics_1
-    --ckpt_path outputs/${DS_NAME}_finetune_1/ckpts/epoch_6.pkl
+    --task $DS_NAME \
+    --version ${DS_NAME}_heuristics_1 \
+    --ckpt_path outputs/${DS_NAME}_finetune_1/ckpts/epoch_6.pkl \
     --candidate_num 10 --example_num 100
