@@ -64,7 +64,7 @@ def extract_questions(path_to_ds_root, ds_name, split='train', limit=0):
                 'version': '1.0',
                 'description': ''
             },
-            'task_type': 'Multiple Choice',
+            'task_type': 'Open-Ended',  # 'Multiple Choice'
             'data_type': ds_name,
             'data_subtype': split,
             'license': {
