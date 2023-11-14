@@ -28,7 +28,7 @@ PRETRAINED_MODEL_PATH=${PRETRAINED_MODEL_PATH:-"ckpts/mcan_pt_okvqa.pkl"} # path
 VERSION=${VERSION:-finetuning_okvqa} # version name, default 'finetuning_for_$TASK'
 
 # run python script
-CUDA_VISIBLE_DEVICES=$GPU \
+#CUDA_VISIBLE_DEVICES=$GPU \
 python main.py \
     --task $TASK --run_mode finetune \
     --cfg configs/finetune.yml \
