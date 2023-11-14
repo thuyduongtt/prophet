@@ -185,4 +185,4 @@ if __name__ == '__main__':
 
     auto_generate('extract_questions', args.path_to_ds_root, limit=args.limit)
     auto_generate('extract_annotations', args.path_to_ds_root, limit=args.limit)
-    # auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
+    auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
