@@ -42,8 +42,8 @@ def stream_data(path_to_json_file, limit=0, start_at=0):
 
 
 # from this we get unbalanced_annotations.json and balanced_10_annotations.json
-def extract_questions(path_to_ds_root, ds_name, split='train'):
-    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json')
+def extract_questions(path_to_ds_root, ds_name, split='train', limit=0):
+    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json', limit=limit)
     questions = []
 
     for d in json_data:
@@ -63,8 +63,8 @@ def extract_questions(path_to_ds_root, ds_name, split='train'):
 
 
 # from this we get unbalanced_annotations.json and balanced_10_annotations.json
-def extract_annotations(path_to_ds_root, ds_name, split='train'):
-    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json')
+def extract_annotations(path_to_ds_root, ds_name, split='train', limit=0):
+    json_data = stream_data(f'{path_to_ds_root}/{ds_name}/{split}.json', limit=limit)
     answers = []
 
     for d in json_data:
@@ -119,18 +119,18 @@ def extract_answer_dict(path_to_ds_root, ds_name, split='train'):
         json.dump(selected_answers, f)
 
 
-def auto_generate(task, path_to_ds_root):
+def auto_generate(task, path_to_ds_root, limit=0):
     if task == 'extract_questions':
-        extract_questions(path_to_ds_root, 'unbalanced', 'train')
-        extract_questions(path_to_ds_root, 'unbalanced', 'test')
-        extract_questions(path_to_ds_root, 'balanced_10', 'train')
-        extract_questions(path_to_ds_root, 'balanced_10', 'test')
+        extract_questions(path_to_ds_root, 'unbalanced', 'train', limit=limit)
+        extract_questions(path_to_ds_root, 'unbalanced', 'test', limit=limit)
+        extract_questions(path_to_ds_root, 'balanced_10', 'train', limit=limit)
+        extract_questions(path_to_ds_root, 'balanced_10', 'test', limit=limit)
 
     elif task == 'extract_annotations':
-        extract_annotations(path_to_ds_root, 'unbalanced', 'train')
-        extract_annotations(path_to_ds_root, 'unbalanced', 'test')
-        extract_annotations(path_to_ds_root, 'balanced_10', 'train')
-        extract_annotations(path_to_ds_root, 'balanced_10', 'test')
+        extract_annotations(path_to_ds_root, 'unbalanced', 'train', limit=limit)
+        extract_annotations(path_to_ds_root, 'unbalanced', 'test', limit=limit)
+        extract_annotations(path_to_ds_root, 'balanced_10', 'train', limit=limit)
+        extract_annotations(path_to_ds_root, 'balanced_10', 'test', limit=limit)
 
     elif task == 'extract_answer_dict':  # use train split only
         extract_answer_dict(path_to_ds_root, 'unbalanced')
@@ -142,8 +142,9 @@ def auto_generate(task, path_to_ds_root):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_to_ds_root', type=str, required=True)
+    parser.add_argument('--limit', type=int, default=0)
     args = parser.parse_args()
 
-    auto_generate('extract_questions', args.path_to_ds_root)
-    auto_generate('extract_annotations', args.path_to_ds_root)
-    auto_generate('extract_answer_dict', args.path_to_ds_root)
+    auto_generate('extract_questions', args.path_to_ds_root, limit=args.limit)
+    auto_generate('extract_annotations', args.path_to_ds_root, limit=args.limit)
+    auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
