@@ -4,6 +4,7 @@ import ijson
 import pickle
 from pathlib import Path
 import numpy as np
+from datetime import datetime
 
 '''
 n_questions: int
@@ -55,7 +56,10 @@ def extract_questions(path_to_ds_root, ds_name, split='train'):
         })
 
     with open(f'datasets/{ds_name}/{ds_name}_{split}_questions.json', 'w', encoding='utf-8') as f:
-        json.dump(questions, f)
+        json.dump({
+            'created_at': datetime.now().isoformat(),
+            'questions': questions
+        }, f)
 
 
 # from this we get unbalanced_annotations.json and balanced_10_annotations.json
@@ -76,7 +80,10 @@ def extract_annotations(path_to_ds_root, ds_name, split='train'):
         })
 
     with open(f'datasets/{ds_name}/{ds_name}_{split}_annotations.json', 'w', encoding='utf-8') as f:
-        json.dump(answers, f)
+        json.dump({
+            'created_at': datetime.now().isoformat(),
+            'annotations': answers
+        }, f)
 
 
 # from this we get answer_dict_unbalanced.json and answer_dict_balanced_10.json
