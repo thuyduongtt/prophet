@@ -43,6 +43,7 @@ class VQA:
             self.dataset = dataset
             self.questions = questions
             self.createIndex()
+            self.question_types = dataset['question_types']
 
     def createIndex(self):
         # create index

@@ -53,19 +53,21 @@ def _evaluate(annotation_file: str, question_file: str, result_file: str):
     vqaEval_prophet = VQAEval(vqa, vqaRes_prophet, n=2)
     vqaEval_prophet.evaluate()
 
-    question_types = {
-        "eight": "Plants and Animals",
-        "nine": "Science and Technology",
-        "four": "Sports and Recreation",
-        "six": "Geography, History, Language and Culture",
-        "two": "Brands, Companies and Products",
-        "one": "Vehicles and Transportation",
-        "five": "Cooking and Food",
-        "ten": "Weather and Climate",
-        "seven": "People and Everyday life",
-        "three": "Objects, Material and Clothing"
-        # "other": "Other",
-    }
+    # question_types = {
+    #     "eight": "Plants and Animals",
+    #     "nine": "Science and Technology",
+    #     "four": "Sports and Recreation",
+    #     "six": "Geography, History, Language and Culture",
+    #     "two": "Brands, Companies and Products",
+    #     "one": "Vehicles and Transportation",
+    #     "five": "Cooking and Food",
+    #     "ten": "Weather and Climate",
+    #     "seven": "People and Everyday life",
+    #     "three": "Objects, Material and Clothing"
+    #     # "other": "Other",
+    # }
+
+    question_types = vqa.question_types
 
     result_str = ''
     result_str += "Overall Accuracy is: %.02f\n" % (vqaEval_prophet.accuracy['overall'])
