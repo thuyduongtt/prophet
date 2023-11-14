@@ -88,7 +88,8 @@ class Cfgs(PATH):
             self.DATA_TAG = 'v2'  # used to config answer dict
             self.DATA_MODE = 'pretrain'
         else:
-            self.DATA_TAG = self.TASK.split('_')[0]  # used to config answer dict
+            # self.DATA_TAG = self.TASK.split('_')[0]  # used to config answer dict
+            self.DATA_TAG = self.TASK
             self.DATA_MODE = 'finetune'
 
         
