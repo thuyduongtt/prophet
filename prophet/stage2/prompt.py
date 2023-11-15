@@ -26,7 +26,11 @@ class Runner:
     def __init__(self, __C, evaluater):
         self.__C = __C
         self.evaluater = evaluater
-        openai.api_key = __C.OPENAI_KEY
+        # openai.api_key = __C.OPENAI_KEY
+        openai.api_key = os.getenv("AZURE_OPENAI_KEY")
+        openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+        openai.api_type = 'azure'
+        openai.api_version = '2023-05-15'
     
     def gpt3_infer(self, prompt_text, _retry=0):
         # print(prompt_text)
@@ -43,15 +47,26 @@ class Runner:
 
         try:
             # print('calling gpt3...')
+            # response = openai.Completion.create(
+            #     engine=self.__C.MODEL,
+            #     prompt=prompt_text,
+            #     temperature=self.__C.TEMPERATURE,
+            #     max_tokens=self.__C.MAX_TOKENS,
+            #     logprobs=1,
+            #     stop=["\n", "<|endoftext|>"],
+            #     # timeout=20,
+            # )
+
+            # use internal OpenAI server
             response = openai.Completion.create(
-                engine=self.__C.MODEL,
+                engine='gpt35',
                 prompt=prompt_text,
                 temperature=self.__C.TEMPERATURE,
                 max_tokens=self.__C.MAX_TOKENS,
                 logprobs=1,
                 stop=["\n", "<|endoftext|>"],
-                # timeout=20,
             )
+
             # print('gpt3 called.')
         except Exception as e:
             print(type(e), e)
@@ -69,6 +84,18 @@ class Runner:
         prob = math.exp(sum(plist))
         
         return response_txt, prob
+
+    # def llava_infer(self, prompt_text):
+    #     print(prompt_text)
+    #
+    #     plist = []
+    #     for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
+    #         if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
+    #             break
+    #         plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
+    #     prob = math.exp(sum(plist))
+    #
+    #     return response_txt, prob
     
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
