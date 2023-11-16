@@ -35,6 +35,8 @@ CANDIDATES_PATH=${CANDIDATES_PATH:-"assets/candidates_okvqa.json"} # path to the
 CAPTIONS_PATH=${CAPTIONS_PATH:-"assets/captions_okvqa.json"} # path to the captions, default is the result from our experiments
 #OPENAI_KEY=${OPENAI_KEY:-""} # path to the captions
 
+echo "run step 1"
+
 # CUDA_VISIBLE_DEVICES=$GPU \
 python main.py \
     --task $TASK --run_mode prompt \
