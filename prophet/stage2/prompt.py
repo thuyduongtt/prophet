@@ -221,27 +221,18 @@ def prompt_login_args(parser):
     parser.add_argument('--examples_path', dest='EXAMPLES_PATH', help='answer-aware example file path, default: "assets/answer_aware_examples_for_ok.json"', type=str, default=None)
     parser.add_argument('--candidates_path', dest='CANDIDATES_PATH', help='candidates file path, default: "assets/candidates_for_ok.json"', type=str, default=None)
     parser.add_argument('--captions_path', dest='CAPTIONS_PATH', help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
-    parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
+    # parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
 
 
 if __name__ == '__main__':
-    print('==== 1')
     parser = argparse.ArgumentParser(description='Heuristics-enhanced Prompting')
-    print('==== 2')
     prompt_login_args(parser)
-    print('==== 3')
     args = parser.parse_args()
-    print('==== 4')
     __C = Cfgs(args)
-    print('==== 5')
     with open(args.cfg_file, 'r') as f:
         yaml_dict = yaml.load(f, Loader=yaml.FullLoader)
-    print('==== 6')
     __C.override_from_dict(yaml_dict)
-    print('==== 7')
     print(__C)
-    print('==== 8')
 
     runner = Runner(__C)
-    print('==== 9')
     runner.run()
