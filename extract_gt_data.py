@@ -183,9 +183,9 @@ if __name__ == '__main__':
     parser.add_argument('--limit', type=int, default=0)
     args = parser.parse_args()
 
-    # auto_generate('extract_questions', args.path_to_ds_root, limit=args.limit)
-    # auto_generate('extract_annotations', args.path_to_ds_root, limit=args.limit)
-    auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
+    auto_generate('extract_questions', args.path_to_ds_root, limit=args.limit)
+    auto_generate('extract_annotations', args.path_to_ds_root, limit=args.limit)
+    # auto_generate('extract_answer_dict', args.path_to_ds_root, limit=args.limit)
 
     # UNBALANCED
     # Total answers: 138305

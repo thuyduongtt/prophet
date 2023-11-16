@@ -46,7 +46,7 @@ class Runner:
             return 0, 0
 
         try:
-            # print('calling gpt3...')
+            print('calling gpt3...')
             # response = openai.Completion.create(
             #     engine=self.__C.MODEL,
             #     prompt=prompt_text,
@@ -66,8 +66,8 @@ class Runner:
                 logprobs=1,
                 stop=["\n", "<|endoftext|>"],
             )
+            print('Response:', response.choices[0].text)
 
-            # print('gpt3 called.')
         except Exception as e:
             print(type(e), e)
             if str(e) == 'You exceeded your current quota, please check your plan and billing details.':
@@ -84,18 +84,6 @@ class Runner:
         prob = math.exp(sum(plist))
         
         return response_txt, prob
-
-    # def llava_infer(self, prompt_text):
-    #     print(prompt_text)
-    #
-    #     plist = []
-    #     for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
-    #         if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
-    #             break
-    #         plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
-    #     prob = math.exp(sum(plist))
-    #
-    #     return response_txt, prob
     
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
