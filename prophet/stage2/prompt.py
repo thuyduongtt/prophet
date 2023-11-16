@@ -63,12 +63,13 @@ class Runner:
                 prompt=prompt_text,
                 temperature=self.__C.TEMPERATURE,
                 max_tokens=self.__C.MAX_TOKENS,
-                # logprobs=1,
+                # logprobs=1,  # not supported in GPT 3.5
                 stop=["\n", "<|endoftext|>"],
             )
-            print('Response')
-            print(response)
-            print('End Response')
+
+            # print('Response')
+            # print(response)
+            # print('End Response')
 
         except Exception as e:
             print(type(e), e)
@@ -78,14 +79,14 @@ class Runner:
 
         response_txt = response.choices[0].text.strip()
         print(response_txt)
-        plist = []
-        for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
-            if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
-                break
-            plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
-        prob = math.exp(sum(plist))
+        # plist = []
+        # for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
+        #     if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
+        #         break
+        #     plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
+        # prob = math.exp(sum(plist))
         
-        return response_txt, prob
+        return response_txt, 1.0
     
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
