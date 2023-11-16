@@ -225,14 +225,23 @@ def prompt_login_args(parser):
 
 
 if __name__ == '__main__':
+    print('==== 1')
     parser = argparse.ArgumentParser(description='Heuristics-enhanced Prompting')
+    print('==== 2')
     prompt_login_args(parser)
+    print('==== 3')
     args = parser.parse_args()
+    print('==== 4')
     __C = Cfgs(args)
+    print('==== 5')
     with open(args.cfg_file, 'r') as f:
         yaml_dict = yaml.load(f, Loader=yaml.FullLoader)
+    print('==== 6')
     __C.override_from_dict(yaml_dict)
+    print('==== 7')
     print(__C)
+    print('==== 8')
 
     runner = Runner(__C)
+    print('==== 9')
     runner.run()
