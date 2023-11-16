@@ -233,6 +233,8 @@ if __name__ == '__main__':
     with open(args.cfg_file, 'r') as f:
         yaml_dict = yaml.load(f, Loader=yaml.FullLoader)
     __C.override_from_dict(yaml_dict)
+
+    print('-- 0')
     print(__C)
 
     print('-- 1')
