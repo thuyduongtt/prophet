@@ -66,7 +66,9 @@ class Runner:
                 # logprobs=1,
                 stop=["\n", "<|endoftext|>"],
             )
-            print('Response:', response.choices[0].text)
+            print('Response')
+            print(response)
+            print('End Response')
 
         except Exception as e:
             print(type(e), e)
