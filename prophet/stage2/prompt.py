@@ -234,5 +234,10 @@ if __name__ == '__main__':
     __C.override_from_dict(yaml_dict)
     print(__C)
 
-    runner = Runner(__C)
+    evaluater = OKEvaluater(
+        __C.EVAL_ANSWER_PATH,
+        __C.EVAL_QUESTION_PATH,
+    )
+
+    runner = Runner(__C, evaluater)
     runner.run()
