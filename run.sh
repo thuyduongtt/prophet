@@ -39,4 +39,4 @@ bash scripts/prompt.sh \
     --version ${DS_NAME}_prompt_${N} \
     --examples_path outputs/results/${DS_NAME}_heuristics_${N}/examples.json \
     --candidates_path outputs/results/${DS_NAME}_heuristics_${N}/candidates.json \
-    --captions_path assets/captions_${DS_NAME}.json \
+    --captions_path assets/captions_${DS_NAME}.json
