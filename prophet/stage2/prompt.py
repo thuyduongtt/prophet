@@ -20,6 +20,7 @@ import openai
 from .utils.fancy_pbar import progress, info_column
 from .utils.data_utils import Qid2Data
 from configs.task_cfgs import Cfgs
+from evaluation.okvqa_evaluate import OKEvaluater
 
 
 class Runner:
