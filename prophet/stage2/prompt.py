@@ -63,7 +63,7 @@ class Runner:
                 prompt=prompt_text,
                 temperature=self.__C.TEMPERATURE,
                 max_tokens=self.__C.MAX_TOKENS,
-                logprobs=1,
+                # logprobs=1,
                 stop=["\n", "<|endoftext|>"],
             )
             print('Response:', response.choices[0].text)
