@@ -39,11 +39,10 @@ echo "run step 1"
 
 # CUDA_VISIBLE_DEVICES=$GPU \
 python -m prophet.stage2.prompt \
-    --task $TASK --run_mode prompt \
+    --task $TASK \
     --version $VERSION \
     --cfg configs/prompt.yml \
     --examples_path $EXAMPLES_PATH \
     --candidates_path $CANDIDATES_PATH \
     --captions_path $CAPTIONS_PATH \
-    --debug false
 #    --openai_key $OPENAI_KEY
