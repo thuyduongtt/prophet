@@ -46,7 +46,7 @@ class Runner:
             return 0, 0
 
         try:
-            print('calling gpt3...')
+            # print('calling gpt3...')
             # response = openai.Completion.create(
             #     engine=self.__C.MODEL,
             #     prompt=prompt_text,
