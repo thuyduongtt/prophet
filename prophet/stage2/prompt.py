@@ -235,10 +235,13 @@ if __name__ == '__main__':
     __C.override_from_dict(yaml_dict)
     print(__C)
 
+    print('-- 1')
     evaluater = OKEvaluater(
         __C.EVAL_ANSWER_PATH,
         __C.EVAL_QUESTION_PATH,
     )
 
+    print('-- 2')
     runner = Runner(__C, evaluater)
+    print('-- 3')
     runner.run()
