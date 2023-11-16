@@ -36,7 +36,6 @@ CAPTIONS_PATH=${CAPTIONS_PATH:-"assets/captions_okvqa.json"} # path to the capti
 #OPENAI_KEY=${OPENAI_KEY:-""} # path to the captions
 
 # CUDA_VISIBLE_DEVICES=$GPU \
-echo "start main.py"
 python main.py \
     --task $TASK --run_mode prompt \
     --version $VERSION \
