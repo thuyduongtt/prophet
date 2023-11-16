@@ -43,5 +43,5 @@ python main.py \
     --cfg configs/prompt.yml \
     --examples_path $EXAMPLES_PATH \
     --candidates_path $CANDIDATES_PATH \
-    --captions_path $CAPTIONS_PATH \
+    --captions_path $CAPTIONS_PATH
 #    --openai_key $OPENAI_KEY

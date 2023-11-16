@@ -152,8 +152,6 @@ class Runner:
 
         infer_times = self.__C.T_INFER
         N_inctx = self.__C.N_EXAMPLES
-        
-        print()
 
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
