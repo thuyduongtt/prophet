@@ -1,6 +1,6 @@
 #!/bin/bash
 
-N=2
+N=3
 
 case $1 in
   1)
