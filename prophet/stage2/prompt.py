@@ -38,11 +38,11 @@ class Runner:
         if _retry > 0:
             print('retrying...')
             st = 2 ** _retry
-            time.sleep(st)
+            # time.sleep(st)
         
         if self.__C.DEBUG:
             # print(prompt_text)
-            time.sleep(0.05)
+            # time.sleep(0.05)
             return 0, 0
 
         try:
@@ -157,9 +157,15 @@ class Runner:
         infer_times = self.__C.T_INFER
         N_inctx = self.__C.N_EXAMPLES
 
+        count = 0
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
                 continue
+
+            count += 1
+            if count % 1000 == 0:
+                print(f'{count} / {self.valset.qid_to_data}')
+
             ques = self.valset.get_question(qid)
             caption = self.valset.get_caption(qid)
             cands = self.valset.get_topk_candidates(qid, self.__C.K_CANDIDATES)
@@ -187,7 +193,7 @@ class Runner:
                     'confidence': gen_prob
                 }
                 prompt_info_list.append(prompt_info)
-                time.sleep(self.__C.SLEEP_PER_INFER)
+                # time.sleep(self.__C.SLEEP_PER_INFER)
             
             # vote
             if len(ans_pool) == 0:
