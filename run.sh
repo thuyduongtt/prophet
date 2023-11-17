@@ -1,6 +1,7 @@
 #!/bin/bash
 
-N=3
+N=2
+VERSION=2
 
 case $1 in
   1)
@@ -36,7 +37,7 @@ esac
 # Step 6
 bash scripts/prompt.sh \
     --task $DS_NAME \
-    --version ${DS_NAME}_prompt_${N} \
+    --version ${DS_NAME}_prompt_${N}_${VERSION} \
     --examples_path outputs/results/${DS_NAME}_heuristics_${N}/examples.json \
     --candidates_path outputs/results/${DS_NAME}_heuristics_${N}/candidates.json \
     --captions_path assets/captions_${DS_NAME}.json
