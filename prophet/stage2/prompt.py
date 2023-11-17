@@ -164,7 +164,7 @@ class Runner:
 
             count += 1
             if count % 1000 == 0:
-                print(f'{count} / {self.valset.qid_to_data}')
+                print(f'{count} / {len(self.valset.qid_to_data)}')
 
             ques = self.valset.get_question(qid)
             caption = self.valset.get_caption(qid)
