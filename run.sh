@@ -35,6 +35,7 @@ esac
 
 # STAGE TWO
 # Step 6
+source ~/.profile  # make sure the OpenAI Key is loaded
 bash scripts/prompt.sh \
     --task $DS_NAME \
     --version ${DS_NAME}_prompt_${N}_${VERSION} \
