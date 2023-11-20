@@ -27,6 +27,7 @@ class Runner:
         self.__C = __C
         self.evaluater = evaluater
         # openai.api_key = __C.OPENAI_KEY
+        print('OpenAI Key:', os.getenv("AZURE_OPENAI_KEY"))
         openai.api_key = os.getenv("AZURE_OPENAI_KEY")
         openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
         openai.api_type = 'azure'
