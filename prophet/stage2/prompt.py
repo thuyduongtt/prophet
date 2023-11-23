@@ -95,10 +95,11 @@ class Runner:
             # print('End Response')
 
         except Exception as e:
-            print(type(e), e)
-            if str(e) == 'You exceeded your current quota, please check your plan and billing details.':
-                exit(1)
-            return self.gpt3_infer(prompt_text, _retry + 1)
+            return 'No answer', 1.0
+            # print(type(e), e)
+            # if str(e) == 'You exceeded your current quota, please check your plan and billing details.':
+            #     exit(1)
+            # return self.gpt3_infer(prompt_text, _retry + 1)
 
         # response_txt = response.choices[0].text.strip()
         response_txt = response['choices'][0]['text'].strip()
