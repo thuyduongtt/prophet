@@ -16,6 +16,7 @@ from copy import deepcopy
 import yaml
 from pathlib import Path
 import openai
+import requests
 
 from .utils.fancy_pbar import progress, info_column
 from .utils.data_utils import Qid2Data
@@ -28,11 +29,11 @@ class Runner:
         self.evaluater = evaluater
         # openai.api_key = __C.OPENAI_KEY
         print('OpenAI Key:', os.getenv("AZURE_OPENAI_KEY"))
-        openai.api_key = os.getenv("AZURE_OPENAI_KEY")
-        openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-        openai.api_type = 'azure'
-        openai.api_version = '2023-05-15'
-    
+        # openai.api_key = os.getenv("AZURE_OPENAI_KEY")
+        # openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+        # openai.api_type = 'azure'
+        # openai.api_version = '2023-05-15'
+
     def gpt3_infer(self, prompt_text, _retry=0):
         # print(prompt_text)
         # exponential backoff
@@ -40,7 +41,7 @@ class Runner:
             print('retrying...')
             st = 2 ** _retry
             # time.sleep(st)
-        
+
         if self.__C.DEBUG:
             # print(prompt_text)
             # time.sleep(0.05)
@@ -59,14 +60,34 @@ class Runner:
             # )
 
             # use internal OpenAI server
-            response = openai.Completion.create(
-                engine='gpt35',
-                prompt=prompt_text,
-                temperature=self.__C.TEMPERATURE,
-                max_tokens=self.__C.MAX_TOKENS,
-                # logprobs=1,  # not supported in GPT 3.5
-                stop=["\n", "<|endoftext|>"],
-            )
+            # response = openai.Completion.create(
+            #     engine='gpt35',
+            #     prompt=prompt_text,
+            #     temperature=self.__C.TEMPERATURE,
+            #     max_tokens=self.__C.MAX_TOKENS,
+            #     # logprobs=1,  # not supported in GPT 3.5
+            #     stop=["\n", "<|endoftext|>"],
+            # )
+
+            API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
+            API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
+            MODEL = "meta-llama/Llama-2-13b-chat-hf"
+
+            headers = {
+                "api-key": API_KEY,
+                "Content-Type": "application/json"
+            }
+
+            body = {
+                "model": MODEL,
+                "prompt": prompt_text,
+                "temperature": self.__C.TEMPERATURE,
+                "max_tokens": self.__C.MAX_TOKENS,
+                "logprobs": 1,
+                "stop": ["\n", "<|endoftext|>"]
+            }
+            response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
+            response = response.json()
 
             # print('Response')
             # print(response)
@@ -78,18 +99,18 @@ class Runner:
                 exit(1)
             return self.gpt3_infer(prompt_text, _retry + 1)
 
-        response_txt = response.choices[0].text.strip()
-        # print(response_txt)
+        # response_txt = response.choices[0].text.strip()
+        response_txt = response['choices'][0]['text'].strip()
+        print(response_txt)
+        plist = []
+        for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
+            if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
+                break
+            plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
+        prob = math.exp(sum(plist))
 
-        # plist = []
-        # for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
-        #     if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
-        #         break
-        #     plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
-        # prob = math.exp(sum(plist))
-        
-        return response_txt, 1.0
-    
+        return response_txt, prob
+
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
         cands = cands[:self.__C.K_CANDIDATES]
@@ -116,7 +137,7 @@ class Runner:
             prompt_text += self.sample_make(ques, caption, cands, ans=gt_ans)
             prompt_text += '\n\n'
         return prompt_text
-    
+
     def run(self):
         ## where logs will be saved
         Path(self.__C.LOG_PATH).parent.mkdir(parents=True, exist_ok=True)
@@ -124,7 +145,7 @@ class Runner:
             f.write(str(self.__C) + '\n')
         ## where results will be saved
         Path(self.__C.RESULT_DIR).mkdir(parents=True, exist_ok=True)
-        
+
         self.cache = {}
         self.cache_file_path = os.path.join(
             self.__C.RESULT_DIR,
@@ -132,15 +153,16 @@ class Runner:
         )
         if self.__C.RESUME:
             self.cache = json.load(open(self.cache_file_path, 'r'))
-        
-        print('Note that the accuracies printed before final evaluation (the last printed one) are rough, just for checking if the process is normal!!!\n')
+
+        print(
+            'Note that the accuracies printed before final evaluation (the last printed one) are rough, just for checking if the process is normal!!!\n')
         self.trainset = Qid2Data(
-            self.__C, 
+            self.__C,
             self.__C.TRAIN_SPLITS,
             True
         )
         self.valset = Qid2Data(
-            self.__C, 
+            self.__C,
             self.__C.EVAL_SPLITS,
             self.__C.EVAL_NOW,
             json.load(open(self.__C.EXAMPLES_PATH, 'r'))
@@ -195,13 +217,13 @@ class Runner:
                 }
                 prompt_info_list.append(prompt_info)
                 # time.sleep(self.__C.SLEEP_PER_INFER)
-            
+
             # vote
             if len(ans_pool) == 0:
                 answer = self.valset.get_topk_candidates(qid, 1)[0]['answer']
             else:
                 answer = sorted(ans_pool.items(), key=lambda x: x[1], reverse=True)[0][0]
-            
+
             self.evaluater.add(qid, answer)
             self.cache[qid] = {
                 'question_id': qid,
@@ -220,16 +242,21 @@ class Runner:
         if self.__C.EVAL_NOW:
             with open(self.__C.LOG_PATH, 'a+') as logfile:
                 self.evaluater.evaluate(logfile)
-        
+
+
 def prompt_login_args(parser):
     parser.add_argument('--debug', dest='DEBUG', help='debug mode', action='store_true')
     parser.add_argument('--resume', dest='RESUME', help='resume previous run', action='store_true')
     parser.add_argument('--task', dest='TASK', help='task name, e.g., ok, aok_val, aok_test', type=str, required=True)
     parser.add_argument('--version', dest='VERSION', help='version name', type=str, required=True)
     parser.add_argument('--cfg', dest='cfg_file', help='optional config file', type=str, default='configs/prompt.yml')
-    parser.add_argument('--examples_path', dest='EXAMPLES_PATH', help='answer-aware example file path, default: "assets/answer_aware_examples_for_ok.json"', type=str, default=None)
-    parser.add_argument('--candidates_path', dest='CANDIDATES_PATH', help='candidates file path, default: "assets/candidates_for_ok.json"', type=str, default=None)
-    parser.add_argument('--captions_path', dest='CAPTIONS_PATH', help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
+    parser.add_argument('--examples_path', dest='EXAMPLES_PATH',
+                        help='answer-aware example file path, default: "assets/answer_aware_examples_for_ok.json"',
+                        type=str, default=None)
+    parser.add_argument('--candidates_path', dest='CANDIDATES_PATH',
+                        help='candidates file path, default: "assets/candidates_for_ok.json"', type=str, default=None)
+    parser.add_argument('--captions_path', dest='CAPTIONS_PATH',
+                        help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
     # parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
 
 
