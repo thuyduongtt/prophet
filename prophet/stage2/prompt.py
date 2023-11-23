@@ -28,7 +28,8 @@ class Runner:
         self.__C = __C
         self.evaluater = evaluater
         # openai.api_key = __C.OPENAI_KEY
-        print('OpenAI Key:', os.getenv("AZURE_OPENAI_KEY"))
+
+        # print('OpenAI Key:', os.getenv("AZURE_OPENAI_KEY"))
         # openai.api_key = os.getenv("AZURE_OPENAI_KEY")
         # openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
         # openai.api_type = 'azure'
@@ -101,15 +102,15 @@ class Runner:
 
         # response_txt = response.choices[0].text.strip()
         response_txt = response['choices'][0]['text'].strip()
-        # print(response_txt)
-        # plist = []
-        # for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
-        #     if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
-        #         break
-        #     plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
-        # prob = math.exp(sum(plist))
+        print(response_txt)
+        plist = []
+        for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
+            if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
+                break
+            plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
+        prob = math.exp(sum(plist))
 
-        return response_txt, 1.0
+        return response_txt, prob
 
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
