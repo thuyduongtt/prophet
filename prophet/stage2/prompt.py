@@ -101,7 +101,7 @@ class Runner:
 
         # response_txt = response.choices[0].text.strip()
         response_txt = response['choices'][0]['text'].strip()
-        print(response_txt)
+        # print(response_txt)
         plist = []
         for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
             if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
