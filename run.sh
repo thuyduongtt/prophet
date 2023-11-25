@@ -38,7 +38,7 @@ esac
 source ~/.profile  # make sure the OpenAI Key is loaded
 bash scripts/prompt.sh \
     --task $DS_NAME \
-    --version ${DS_NAME}_prompt_${N}_${VERSION} \
+    --version ${DS_NAME}_prompt_${N}_v${VERSION} \
     --examples_path outputs/results/${DS_NAME}_heuristics_${N}/examples.json \
     --candidates_path outputs/results/${DS_NAME}_heuristics_${N}/candidates.json \
     --captions_path assets/captions_${DS_NAME}.json \
