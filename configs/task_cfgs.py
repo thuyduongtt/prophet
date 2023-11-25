@@ -62,6 +62,9 @@ class Cfgs(PATH):
         self.CACHE_VERSION = getattr(args, 'CACHE_VERSION', None)
         self.CACHE_DIR = os.path.join(self.RESULTS_ROOT, self.VERSION if self.CACHE_VERSION is None else self.CACHE_VERSION)
 
+        self.RUN_MODE = getattr(args, 'RUN_MODE', 'finetune')
+        assert self.RUN_MODE in ['pretrain', 'finetune', 'finetune_test', 'heuristics', 'prompt']
+
         # about resume
         self.RESUME = getattr(args, 'RESUME', False)
         if self.RESUME and self.RUN_MODE == 'pretrain':
@@ -83,9 +86,6 @@ class Cfgs(PATH):
 
         self.TASK = getattr(args, 'TASK', 'ok')
         assert self.TASK in ['ok', 'aok_val', 'aok_test', 'unbalanced', 'balanced_10']
-
-        self.RUN_MODE = getattr(args, 'RUN_MODE', 'finetune')
-        assert self.RUN_MODE in ['pretrain', 'finetune', 'finetune_test', 'heuristics', 'prompt']
 
         if self.RUN_MODE == 'pretrain':
             self.DATA_TAG = 'v2'  # used to config answer dict
