@@ -236,7 +236,7 @@ class Runner:
 
                 # STEP 1. EXPORT PROMPTS
                 if self.__C.EXPORT_PROMPT:
-                    prompt_info[f'{qid}_{t}'] = prompt_text
+                    prompt_info[f'{qid}___{t}'] = prompt_text
                     continue
 
                 # STEP 2. IMPORT PROMPT RESULTS
