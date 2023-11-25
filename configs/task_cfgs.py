@@ -59,6 +59,8 @@ class Cfgs(PATH):
             'result_' + self.TIMESTAMP + '.json'
         )
 
+        self.CACHE_DIR = os.path.join(self.RESULTS_ROOT, self.VERSION if self.CACHE_VERSION is None else self.CACHE_VERSION)
+
         # about resume
         self.RESUME = getattr(args, 'RESUME', False)
         if self.RESUME and self.RUN_MODE == 'pretrain':

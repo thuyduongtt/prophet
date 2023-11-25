@@ -56,9 +56,11 @@ CAPTIONS_PATH=${CAPTIONS_PATH:-"assets/captions_okvqa.json"} # path to the capti
 python -m torch.distributed.run --nproc_per_node 2 main.py \
     --task $TASK --run_mode prompt \
     --version $VERSION \
-    --cfg configs/prompt.yml \
+    --cfg configs/prompt_llama.yml \
     --examples_path $EXAMPLES_PATH \
     --candidates_path $CANDIDATES_PATH \
     --captions_path $CAPTIONS_PATH \
     --llama_model $LLAMA_MODEL \
-    --llama_tokenizer $LLAMA_TOKENIZER
+    --llama_tokenizer $LLAMA_TOKENIZER \
+    --resume \
+    --cache_version balanced_10_prompt_2_v2

@@ -132,14 +132,15 @@ class Runner:
     def sample_make(self, ques, capt, cands, ans=None):
         line_prefix = self.__C.LINE_PREFIX
         cands = cands[:self.__C.K_CANDIDATES]
-        prompt_text = line_prefix + f'Context: {capt}\n'
+        prompt_text = '[INST]\n' + line_prefix + f'Context: {capt}\n'
         prompt_text += line_prefix + f'Question: {ques}\n'
         cands_with_conf = [f'{cand["answer"]}({cand["confidence"]:.2f})' for cand in cands]
         cands = ', '.join(cands_with_conf)
         prompt_text += line_prefix + f'Candidates: {cands}\n'
-        prompt_text += line_prefix + 'Answer:'
         if ans is not None:
-            prompt_text += f' {ans}'
+            prompt_text += line_prefix + 'Answer: [/INST]\n' + ans
+        else:
+            prompt_text += line_prefix + '[/INST] Answer: '
         return prompt_text
 
     def get_context(self, example_qids):
@@ -166,10 +167,11 @@ class Runner:
 
         self.cache = {}
         self.cache_file_path = os.path.join(
-            self.__C.RESULT_DIR,
+            self.__C.CACHE_DIR,
             'cache.json'
         )
         if self.__C.RESUME:
+            print(f'Resume from {self.cache_file_path}')
             self.cache = json.load(open(self.cache_file_path, 'r'))
 
         print(
