@@ -59,6 +59,7 @@ class Cfgs(PATH):
             'result_' + self.TIMESTAMP + '.json'
         )
 
+        self.CACHE_VERSION = getattr(args, 'CACHE_VERSION', None)
         self.CACHE_DIR = os.path.join(self.RESULTS_ROOT, self.VERSION if self.CACHE_VERSION is None else self.CACHE_VERSION)
 
         # about resume
