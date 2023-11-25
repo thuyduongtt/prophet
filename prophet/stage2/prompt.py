@@ -208,6 +208,10 @@ class Runner:
         N_inctx = self.__C.N_EXAMPLES
 
         export_prompt_info = {}
+        prompt_file_path = os.path.join(
+            self.__C.RESULT_DIR,
+            self.__C.PROMPT_FILE
+        )
         count = 0
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
@@ -256,11 +260,7 @@ class Runner:
                 # time.sleep(self.__C.SLEEP_PER_INFER)
 
             if self.__C.EXPORT_PROMPT:
-                self.prompt_file_path = os.path.join(
-                    self.__C.RESULT_DIR,
-                    self.__C.PROMPT_FILE
-                )
-                json.dump(export_prompt_info, open(self.prompt_file_path, 'w'))
+                json.dump(export_prompt_info, open(prompt_file_path, 'w'))
                 continue
 
             # vote
@@ -284,7 +284,7 @@ class Runner:
                     info_column.info = f'Acc: {rt_accuracy}'
 
         if self.__C.EXPORT_PROMPT:
-            print(f'Exported {len(export_prompt_info.keys())} prompts to', self.prompt_file_path)
+            print(f'Exported {len(export_prompt_info.keys())} prompts to', prompt_file_path)
             return
 
         self.evaluater.save(self.__C.RESULT_PATH)
