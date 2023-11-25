@@ -43,15 +43,15 @@ class Runner:
     def gpt3_infer(self, prompt_text, _retry=0):
         # print(prompt_text)
         # exponential backoff
-        if _retry > 0:
-            print('retrying...')
-            st = 2 ** _retry
-            # time.sleep(st)
+        # if _retry > 0:
+        #     print('retrying...')
+        #     st = 2 ** _retry
+        #     # time.sleep(st)
 
-        if self.__C.DEBUG:
-            # print(prompt_text)
-            # time.sleep(0.05)
-            return 0, 0
+        # if self.__C.DEBUG:
+        #     # print(prompt_text)
+        #     # time.sleep(0.05)
+        #     return 0, 0
 
         # print('calling gpt3...')
         # response = openai.Completion.create(
