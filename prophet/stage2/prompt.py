@@ -53,71 +53,63 @@ class Runner:
             # time.sleep(0.05)
             return 0, 0
 
-        try:
-            # print('calling gpt3...')
-            # response = openai.Completion.create(
-            #     engine=self.__C.MODEL,
-            #     prompt=prompt_text,
-            #     temperature=self.__C.TEMPERATURE,
-            #     max_tokens=self.__C.MAX_TOKENS,
-            #     logprobs=1,
-            #     stop=["\n", "<|endoftext|>"],
-            #     # timeout=20,
-            # )
+        # print('calling gpt3...')
+        # response = openai.Completion.create(
+        #     engine=self.__C.MODEL,
+        #     prompt=prompt_text,
+        #     temperature=self.__C.TEMPERATURE,
+        #     max_tokens=self.__C.MAX_TOKENS,
+        #     logprobs=1,
+        #     stop=["\n", "<|endoftext|>"],
+        #     # timeout=20,
+        # )
 
-            # use internal OpenAI server
-            # response = openai.Completion.create(
-            #     engine='gpt35',
-            #     prompt=prompt_text,
-            #     temperature=self.__C.TEMPERATURE,
-            #     max_tokens=self.__C.MAX_TOKENS,
-            #     # logprobs=1,  # not supported in GPT 3.5
-            #     stop=["\n", "<|endoftext|>"],
-            # )
+        # use internal OpenAI server
+        # response = openai.Completion.create(
+        #     engine='gpt35',
+        #     prompt=prompt_text,
+        #     temperature=self.__C.TEMPERATURE,
+        #     max_tokens=self.__C.MAX_TOKENS,
+        #     # logprobs=1,  # not supported in GPT 3.5
+        #     stop=["\n", "<|endoftext|>"],
+        # )
 
-            # API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
-            # API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
-            # MODEL = "meta-llama/Llama-2-13b-chat-hf"
-            #
-            # headers = {
-            #     "api-key": API_KEY,
-            #     "Content-Type": "application/json"
-            # }
-            #
-            # body = {
-            #     "model": MODEL,
-            #     "prompt": prompt_text,
-            #     "temperature": self.__C.TEMPERATURE,
-            #     "max_tokens": self.__C.MAX_TOKENS,
-            #     "logprobs": 1,
-            #     "stop": ["\n", "<|endoftext|>"]
-            # }
-            # response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
-            # response = response.json()
+        # API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
+        # API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
+        # MODEL = "meta-llama/Llama-2-13b-chat-hf"
+        #
+        # headers = {
+        #     "api-key": API_KEY,
+        #     "Content-Type": "application/json"
+        # }
+        #
+        # body = {
+        #     "model": MODEL,
+        #     "prompt": prompt_text,
+        #     "temperature": self.__C.TEMPERATURE,
+        #     "max_tokens": self.__C.MAX_TOKENS,
+        #     "logprobs": 1,
+        #     "stop": ["\n", "<|endoftext|>"]
+        # }
+        # response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
+        # response = response.json()
 
-            global llama_generator
-            if llama_generator is None:
-                init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+        global llama_generator
+        if llama_generator is None:
+            init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
-            prompts: List[str] = [prompt_text]
+        prompts: List[str] = [prompt_text]
 
-            response = llama_generator.text_completion(
-                prompts,
-                temperature=self.__C.TEMPERATURE,
-                max_gen_len=self.__C.MAX_TOKENS,
-                logprobs=True
-            )[0]
+        response = llama_generator.text_completion(
+            prompts,
+            temperature=self.__C.TEMPERATURE,
+            max_gen_len=self.__C.MAX_TOKENS,
+            logprobs=True
+        )[0]
 
-            print('Response')
-            print(response)
-            print('End Response')
-
-        except Exception as e:
-            print(type(e), e)
-            return 'No answer', 1.0
-            # if str(e) == 'You exceeded your current quota, please check your plan and billing details.':
-            #     exit(1)
-            # return self.gpt3_infer(prompt_text, _retry + 1)
+        print('Response')
+        print(response)
+        print('End Response')
 
         # response_txt = response.choices[0].text.strip()  # GPT
         response_txt = response.generation  # Llama-2
