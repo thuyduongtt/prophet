@@ -97,20 +97,22 @@ class Runner:
         # response_txt = response.choices[0].text.strip()
         # print(response_txt, 'len of tokens:', len(response['tokens']))
 
-        print(prompt_text)
+        # print(prompt_text)
 
         # LLAMA LOCAL
-        global llama_generator
-        if llama_generator is None:
-            init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+        # global llama_generator
+        # if llama_generator is None:
+        #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+        #
+        # prompts: List[str] = [prompt_text]
+        # response = llama_generator.text_completion(
+        #     prompts,
+        #     temperature=self.__C.TEMPERATURE,
+        #     max_gen_len=self.__C.MAX_TOKENS,
+        #     logprobs=True
+        # )[0]
 
-        prompts: List[str] = [prompt_text]
-        response = llama_generator.text_completion(
-            prompts,
-            temperature=self.__C.TEMPERATURE,
-            max_gen_len=self.__C.MAX_TOKENS,
-            logprobs=True
-        )[0]
+        # READ PROMPT RESULT
 
         # print('Response')
         # print(response)
@@ -168,12 +170,16 @@ class Runner:
 
         self.cache = {}
         self.cache_file_path = os.path.join(
-            self.__C.CACHE_DIR,
+            self.__C.RESULT_DIR,
             'cache.json'
         )
         if self.__C.RESUME:
-            self.cache = json.load(open(self.cache_file_path, 'r'))
-            print(f'Resume from {self.cache_file_path} ({len(self.cache.keys())} items)')
+            resume_cache_file_path = os.path.join(
+                self.__C.CACHE_DIR,
+                'cache.json'
+            )
+            self.cache = json.load(open(resume_cache_file_path, 'r'))
+            print(f'Resume from {resume_cache_file_path} ({len(self.cache.keys())} items)')
 
         print(
             'Note that the accuracies printed before final evaluation (the last printed one) are rough, just for checking if the process is normal!!!\n')
@@ -218,6 +224,8 @@ class Runner:
             example_qids = self.valset.get_similar_qids(qid, k=infer_times * N_inctx)
             random.shuffle(example_qids)
 
+            prompt_list = []
+
             prompt_info_list = []
             ans_pool = {}
             # multi-times infer
@@ -225,6 +233,17 @@ class Runner:
                 # print(f'Infer {t}...')
                 prompt_in_ctx = self.get_context(example_qids[(N_inctx * t):(N_inctx * t + N_inctx)])
                 prompt_text = prompt_in_ctx + prompt_query
+
+                # STEP 1. EXPORT PROMPTS
+                if self.__C.EXPORT_PROMPT:
+                    prompt_list.push({
+                        'qid': qid,
+                        't_infer': t,
+                        'prompt': prompt_text
+                    })
+                    continue
+
+                # STEP 2. IMPORT PROMPT RESULTS
                 gen_text, gen_prob = self.gpt3_infer(prompt_text)
 
                 ans = self.evaluater.prep_ans(gen_text)
@@ -238,6 +257,14 @@ class Runner:
                 }
                 prompt_info_list.append(prompt_info)
                 # time.sleep(self.__C.SLEEP_PER_INFER)
+
+            if self.__C.EXPORT_PROMPT:
+                prompt_file_path = os.path.join(
+                    self.__C.RESULT_DIR,
+                    self.__C.PROMPT_FILE
+                )
+                json.dump(prompt_list, open(prompt_file_path, 'w'))
+                continue
 
             # vote
             if len(ans_pool) == 0:
@@ -258,6 +285,9 @@ class Runner:
                 if ll > 21 and ll % 10 == 0:
                     rt_accuracy = self.valset.rt_evaluate(self.cache.values())
                     info_column.info = f'Acc: {rt_accuracy}'
+
+        if self.__C.EXPORT_PROMPT:
+            return
 
         self.evaluater.save(self.__C.RESULT_PATH)
         if self.__C.EVAL_NOW:
@@ -291,10 +321,16 @@ def prompt_login_args(parser):
     parser.add_argument('--captions_path', dest='CAPTIONS_PATH',
                         help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
     # parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
+
     parser.add_argument('--llama_model', dest='LLAMA_MODEL', help='', type=str, default=None)
     parser.add_argument('--llama_tokenizer', dest='LLAMA_TOKENIZER', help='', type=str, default=None)
     parser.add_argument('--cache_version', dest='CACHE_VERSION',
                         help='Path to folder containing previous cache.json for resuming', type=str, default=None)
+    parser.add_argument('--export_prompt', dest='EXPORT_PROMPT', help='Export all prompt text to a file',
+                        action='store_true')
+    parser.add_argument('--prompt_file', dest='PROMPT_FILE',
+                        help='Path to prompt file for exporting or importing (depending on the --export_prompt flag)',
+                        type=str, default=None)
 
 
 if __name__ == '__main__':
