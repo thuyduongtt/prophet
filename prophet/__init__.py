@@ -22,6 +22,8 @@ def get_args():
     parser.add_argument('--candidates_path', dest='CANDIDATES_PATH', help='candidates file path, default: "assets/candidates_for_ok.json"', type=str, default=None)
     parser.add_argument('--captions_path', dest='CAPTIONS_PATH', help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
     parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
+    parser.add_argument('--llama_model', dest='LLAMA_MODEL', help='', type=str, default=None)
+    parser.add_argument('--llama_tokenizer', dest='LLAMA_TOKENIZER', help='', type=str, default=None)
     args = parser.parse_args()
     return args
 
