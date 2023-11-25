@@ -263,7 +263,7 @@ def init_llama(model_path, tokenizer_path):
     llama_generator = Llama.build(
         ckpt_dir=model_path,
         tokenizer_path=tokenizer_path,
-        max_seq_len=1024,
+        max_seq_len=4096,
         max_batch_size=8,
     )
     print('Model initialized.')
