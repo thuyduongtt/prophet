@@ -15,13 +15,18 @@ from datetime import datetime
 from copy import deepcopy
 import yaml
 from pathlib import Path
-import openai
+# import openai
 import requests
 
 from .utils.fancy_pbar import progress, info_column
 from .utils.data_utils import Qid2Data
 from configs.task_cfgs import Cfgs
 
+from llama import Llama, Dialog
+from typing import List, Optional
+
+
+llama_generator = None
 
 class Runner:
     def __init__(self, __C, evaluater):
@@ -70,29 +75,39 @@ class Runner:
             #     stop=["\n", "<|endoftext|>"],
             # )
 
-            API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
-            API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
-            MODEL = "meta-llama/Llama-2-13b-chat-hf"
+            # API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
+            # API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
+            # MODEL = "meta-llama/Llama-2-13b-chat-hf"
+            #
+            # headers = {
+            #     "api-key": API_KEY,
+            #     "Content-Type": "application/json"
+            # }
+            #
+            # body = {
+            #     "model": MODEL,
+            #     "prompt": prompt_text,
+            #     "temperature": self.__C.TEMPERATURE,
+            #     "max_tokens": self.__C.MAX_TOKENS,
+            #     "logprobs": 1,
+            #     "stop": ["\n", "<|endoftext|>"]
+            # }
+            # response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
+            # response = response.json()
 
-            headers = {
-                "api-key": API_KEY,
-                "Content-Type": "application/json"
-            }
+            if llama_generator is None:
+                init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
-            body = {
-                "model": MODEL,
-                "prompt": prompt_text,
-                "temperature": self.__C.TEMPERATURE,
-                "max_tokens": self.__C.MAX_TOKENS,
-                "logprobs": 1,
-                "stop": ["\n", "<|endoftext|>"]
-            }
-            response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
-            response = response.json()
+            response = llama_generator.text_completion(
+                prompts=[prompt_text],
+                temperature=self.__C.TEMPERATURE,
+                max_gen_len=self.__C.MAX_TOKENS,
+                logprobs=True
+            )[0]
 
-            # print('Response')
-            # print(response)
-            # print('End Response')
+            print('Response')
+            print(response)
+            print('End Response')
 
         except Exception as e:
             return 'No answer', 1.0
@@ -101,14 +116,15 @@ class Runner:
             #     exit(1)
             # return self.gpt3_infer(prompt_text, _retry + 1)
 
-        # response_txt = response.choices[0].text.strip()
-        response_txt = response['choices'][0]['text'].strip()
+        # response_txt = response.choices[0].text.strip()  # GPT
+        response_txt = response.generation  # Llama-2
         # print(response_txt)
+
         plist = []
-        for ii in range(len(response['choices'][0]['logprobs']['tokens'])):
-            if response['choices'][0]['logprobs']['tokens'][ii] in ["\n", "<|endoftext|>"]:
+        for ii in range(len(response.tokens)):
+            if response.tokens[ii] in ["\n", "<|endoftext|>"]:
                 break
-            plist.append(response['choices'][0]['logprobs']['token_logprobs'][ii])
+            plist.append(response.logprobs[ii])
         prob = math.exp(sum(plist))
 
         return response_txt, prob
@@ -246,6 +262,17 @@ class Runner:
                 self.evaluater.evaluate(logfile)
 
 
+def init_llama(model_path, tokenizer_path):
+    print(f'Init Llama model ({model_path}, {tokenizer_path})',)
+    global llama_generator
+    llama_generator = Llama.build(
+        ckpt_dir=model_path,
+        tokenizer_path=tokenizer_path,
+        max_seq_len=512,
+        max_batch_size=8,
+    )
+
+
 def prompt_login_args(parser):
     parser.add_argument('--debug', dest='DEBUG', help='debug mode', action='store_true')
     parser.add_argument('--resume', dest='RESUME', help='resume previous run', action='store_true')
@@ -260,6 +287,8 @@ def prompt_login_args(parser):
     parser.add_argument('--captions_path', dest='CAPTIONS_PATH',
                         help='captions file path, default: "assets/captions_for_ok.json"', type=str, default=None)
     # parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
+    parser.add_argument('--llama_model', dest='LLAMA_MODEL', help='', type=str, default=None)
+    parser.add_argument('--llama_tokenizer', dest='LLAMA_TOKENIZER', help='', type=str, default=None)
 
 
 if __name__ == '__main__':
