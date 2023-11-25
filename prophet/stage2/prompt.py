@@ -213,13 +213,14 @@ class Runner:
             self.__C.PROMPT_FILE
         )
         count = 0
+        total = len(self.valset.qid_to_data) - len(self.cache.keys())
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
                 continue
 
             count += 1
             if count % 1000 == 0:
-                print(f'{count} / {len(self.valset.qid_to_data)}')
+                print(f'{count} / {total}')
 
             ques = self.valset.get_question(qid)
             caption = self.valset.get_caption(qid)
