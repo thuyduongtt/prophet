@@ -111,15 +111,15 @@ class Runner:
             print('End Response')
 
         except Exception as e:
+            print(type(e), e)
             return 'No answer', 1.0
-            # print(type(e), e)
             # if str(e) == 'You exceeded your current quota, please check your plan and billing details.':
             #     exit(1)
             # return self.gpt3_infer(prompt_text, _retry + 1)
 
         # response_txt = response.choices[0].text.strip()  # GPT
         response_txt = response.generation  # Llama-2
-        # print(response_txt)
+        print(response_txt)
 
         plist = []
         for ii in range(len(response.tokens)):
@@ -264,7 +264,7 @@ class Runner:
 
 
 def init_llama(model_path, tokenizer_path):
-    print(f'Init Llama model ({model_path}, {tokenizer_path})',)
+    # print(f'Init Llama model ({model_path}, {tokenizer_path})')
     global llama_generator
     llama_generator = Llama.build(
         ckpt_dir=model_path,
