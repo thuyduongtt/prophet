@@ -94,6 +94,11 @@ class Runner:
         }
         response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
         response = response.json()
+
+        print('Response')
+        print(response)
+        print('End Response')
+
         response_txt = response.choices[0].text.strip()
         # print(response_txt, 'len of tokens:', len(response['tokens']))
 
@@ -112,10 +117,6 @@ class Runner:
         #     max_gen_len=self.__C.MAX_TOKENS,
         #     logprobs=True
         # )[0]
-
-        print('Response')
-        print(response)
-        print('End Response')
 
         # response_txt = response['generation']  # Llama-2
         # print(response_txt, 'len of tokens:', len(response['tokens']))
