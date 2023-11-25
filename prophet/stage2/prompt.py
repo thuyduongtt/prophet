@@ -129,10 +129,10 @@ class Runner:
 
         return response_txt, prob
 
-    def sample_make(self, ques, capt, cands, ans=None):
+    def sample_make(self, ques, capt, cands, ans=None, B_INST=True):
         line_prefix = self.__C.LINE_PREFIX
         cands = cands[:self.__C.K_CANDIDATES]
-        prompt_text = '[INST]\n' + line_prefix + f'Context: {capt}\n'
+        prompt_text = ('[INST]\n' if B_INST else '') + line_prefix + f'Context: {capt}\n'
         prompt_text += line_prefix + f'Question: {ques}\n'
         cands_with_conf = [f'{cand["answer"]}({cand["confidence"]:.2f})' for cand in cands]
         cands = ', '.join(cands_with_conf)
@@ -145,16 +145,18 @@ class Runner:
 
     def get_context(self, example_qids):
         # making context text for one testing input
-        prompt_text = self.__C.PROMPT_HEAD
+        prompt_text = '[INST]' + self.__C.PROMPT_HEAD
         examples = []
+        count = 0
         for key in example_qids:
             ques = self.trainset.get_question(key)
             caption = self.trainset.get_caption(key)
             cands = self.trainset.get_topk_candidates(key)
             gt_ans = self.trainset.get_most_answer(key)
             examples.append((ques, caption, cands, gt_ans))
-            prompt_text += self.sample_make(ques, caption, cands, ans=gt_ans)
+            prompt_text += self.sample_make(ques, caption, cands, ans=gt_ans, B_INST=count > 0)
             prompt_text += '\n\n'
+            count += 1
         return prompt_text
 
     def run(self):
@@ -292,7 +294,8 @@ def prompt_login_args(parser):
     # parser.add_argument('--openai_key', dest='OPENAI_KEY', help='openai api key', type=str, default=None)
     parser.add_argument('--llama_model', dest='LLAMA_MODEL', help='', type=str, default=None)
     parser.add_argument('--llama_tokenizer', dest='LLAMA_TOKENIZER', help='', type=str, default=None)
-    parser.add_argument('--cache_version', dest='CACHE_VERSION', help='Path to folder containing previous cache.json for resuming', type=str, default=None)
+    parser.add_argument('--cache_version', dest='CACHE_VERSION',
+                        help='Path to folder containing previous cache.json for resuming', type=str, default=None)
 
 
 if __name__ == '__main__':
