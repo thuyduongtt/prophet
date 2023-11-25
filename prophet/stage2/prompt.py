@@ -112,14 +112,14 @@ class Runner:
         print('End Response')
 
         # response_txt = response.choices[0].text.strip()  # GPT
-        response_txt = response.generation  # Llama-2
+        response_txt = response['generation']  # Llama-2
         print(response_txt)
 
         plist = []
-        for ii in range(len(response.tokens)):
-            if response.tokens[ii] in ["\n", "<|endoftext|>"]:
+        for ii in range(len(response['tokens'])):
+            if response['tokens'][ii] in ["\n", "<|endoftext|>"]:
                 break
-            plist.append(response.logprobs[ii])
+            plist.append(response['logprobs'][ii])
         prob = math.exp(sum(plist))
 
         return response_txt, prob
