@@ -62,5 +62,5 @@ python -m torch.distributed.run --nproc_per_node 2 main.py \
     --captions_path $CAPTIONS_PATH \
     --llama_model $LLAMA_MODEL \
     --llama_tokenizer $LLAMA_TOKENIZER \
-    --resume \
-    --cache_version balanced_10_prompt_2_v2
+#    --resume \
+#    --cache_version balanced_10_prompt_2_v2

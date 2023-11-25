@@ -97,21 +97,15 @@ class Runner:
         # response_txt = response.choices[0].text.strip()
         # print(response_txt, 'len of tokens:', len(response['tokens']))
 
-        # LLAMA LOCAL
-        # global llama_generator
-        # if llama_generator is None:
-        #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
-
         print(prompt_text)
 
-        generator = Llama.build(
-            ckpt_dir=self.__C.LLAMA_MODEL,
-            tokenizer_path=self.__C.LLAMA_TOKENIZER,
-            max_seq_len=4096,
-            max_batch_size=1,
-        )
+        # LLAMA LOCAL
+        global llama_generator
+        if llama_generator is None:
+            init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+
         prompts: List[str] = [prompt_text]
-        response = generator.text_completion(
+        response = llama_generator.text_completion(
             prompts,
             temperature=self.__C.TEMPERATURE,
             max_gen_len=self.__C.MAX_TOKENS,
