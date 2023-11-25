@@ -224,7 +224,7 @@ class Runner:
             example_qids = self.valset.get_similar_qids(qid, k=infer_times * N_inctx)
             random.shuffle(example_qids)
 
-            prompt_list = []
+            prompt_info = {}
 
             prompt_info_list = []
             ans_pool = {}
@@ -236,11 +236,7 @@ class Runner:
 
                 # STEP 1. EXPORT PROMPTS
                 if self.__C.EXPORT_PROMPT:
-                    prompt_list.push({
-                        'qid': qid,
-                        't_infer': t,
-                        'prompt': prompt_text
-                    })
+                    prompt_info[f'{qid}_{t}'] = prompt_text
                     continue
 
                 # STEP 2. IMPORT PROMPT RESULTS
@@ -263,7 +259,7 @@ class Runner:
                     self.__C.RESULT_DIR,
                     self.__C.PROMPT_FILE
                 )
-                json.dump(prompt_list, open(prompt_file_path, 'w'))
+                json.dump(prompt_info, open(prompt_file_path, 'w'))
                 continue
 
             # vote
