@@ -103,8 +103,8 @@ class Runner:
         #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
         generator = Llama.build(
-            ckpt_dir=model_path,
-            tokenizer_path=tokenizer_path,
+            ckpt_dir=self.__C.LLAMA_MODEL,
+            tokenizer_path=self.__C.LLAMA_TOKENIZER,
             max_seq_len=4096,
             max_batch_size=1,
         )
