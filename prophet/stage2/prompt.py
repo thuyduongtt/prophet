@@ -95,6 +95,7 @@ class Runner:
             # response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
             # response = response.json()
 
+            global llama_generator
             if llama_generator is None:
                 init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
