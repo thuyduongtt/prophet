@@ -98,15 +98,22 @@ class Runner:
         # print(response_txt, 'len of tokens:', len(response['tokens']))
 
         # LLAMA LOCAL
-        global llama_generator
-        if llama_generator is None:
-            init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+        # global llama_generator
+        # if llama_generator is None:
+        #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
+
+        generator = Llama.build(
+            ckpt_dir=model_path,
+            tokenizer_path=tokenizer_path,
+            max_seq_len=4096,
+            max_batch_size=1,
+        )
 
         prompts: List[str] = [prompt_text]
 
         print(prompt_text)
 
-        response = llama_generator.text_completion(
+        response = generator.text_completion(
             prompts,
             temperature=self.__C.TEMPERATURE,
             max_gen_len=self.__C.MAX_TOKENS,
@@ -117,7 +124,7 @@ class Runner:
         # print(response)
         # print('End Response')
 
-        response_txt = response['generation']  # Llama-2
+        response_txt = response['generation'].strip()  # Llama-2
         print(response_txt, 'len of tokens:', len(response['tokens']))
 
         plist = []
