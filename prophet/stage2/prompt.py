@@ -207,6 +207,7 @@ class Runner:
         infer_times = self.__C.T_INFER
         N_inctx = self.__C.N_EXAMPLES
 
+        export_prompt_info = {}
         count = 0
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
@@ -224,8 +225,6 @@ class Runner:
             example_qids = self.valset.get_similar_qids(qid, k=infer_times * N_inctx)
             random.shuffle(example_qids)
 
-            prompt_info = {}
-
             prompt_info_list = []
             ans_pool = {}
             # multi-times infer
@@ -236,7 +235,9 @@ class Runner:
 
                 # STEP 1. EXPORT PROMPTS
                 if self.__C.EXPORT_PROMPT:
-                    prompt_info[f'{qid}___{t}'] = prompt_text
+                    export_prompt_info[f'{qid}___{t}'] = {
+                        'prompt': prompt_text
+                    }
                     continue
 
                 # STEP 2. IMPORT PROMPT RESULTS
@@ -255,11 +256,11 @@ class Runner:
                 # time.sleep(self.__C.SLEEP_PER_INFER)
 
             if self.__C.EXPORT_PROMPT:
-                prompt_file_path = os.path.join(
+                self.prompt_file_path = os.path.join(
                     self.__C.RESULT_DIR,
                     self.__C.PROMPT_FILE
                 )
-                json.dump(prompt_info, open(prompt_file_path, 'w'))
+                json.dump(export_prompt_info, open(self.prompt_file_path, 'w'))
                 continue
 
             # vote
@@ -283,6 +284,7 @@ class Runner:
                     info_column.info = f'Acc: {rt_accuracy}'
 
         if self.__C.EXPORT_PROMPT:
+            print(f'Exported {len(export_prompt_info.keys())} prompts to', self.prompt_file_path)
             return
 
         self.evaluater.save(self.__C.RESULT_PATH)
