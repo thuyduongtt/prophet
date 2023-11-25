@@ -25,8 +25,8 @@ from configs.task_cfgs import Cfgs
 from llama import Llama, Dialog
 from typing import List, Optional
 
-
 llama_generator = None
+
 
 class Runner:
     def __init__(self, __C, evaluater):
@@ -99,8 +99,10 @@ class Runner:
             if llama_generator is None:
                 init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
+            prompts: List[str] = [prompt_text]
+
             response = llama_generator.text_completion(
-                prompts=[prompt_text],
+                prompts,
                 temperature=self.__C.TEMPERATURE,
                 max_gen_len=self.__C.MAX_TOKENS,
                 logprobs=True
