@@ -264,7 +264,7 @@ class Runner:
 
 
 def init_llama(model_path, tokenizer_path):
-    # print(f'Init Llama model ({model_path}, {tokenizer_path})')
+    print(f'Init Llama model ({model_path}, {tokenizer_path})')
     global llama_generator
     llama_generator = Llama.build(
         ckpt_dir=model_path,
