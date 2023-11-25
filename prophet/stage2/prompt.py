@@ -106,7 +106,7 @@ class Runner:
                 temperature=self.__C.TEMPERATURE,
                 max_gen_len=self.__C.MAX_TOKENS,
                 logprobs=True
-            )[0]
+            )
 
             print('Response')
             print(response)
