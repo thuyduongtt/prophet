@@ -107,13 +107,13 @@ class Runner:
             logprobs=True
         )[0]
 
-        print('Response')
-        print(response)
-        print('End Response')
+        # print('Response')
+        # print(response)
+        # print('End Response')
 
         # response_txt = response.choices[0].text.strip()  # GPT
         response_txt = response['generation']  # Llama-2
-        print(response_txt)
+        # print(response_txt)
 
         plist = []
         for ii in range(len(response['tokens'])):
