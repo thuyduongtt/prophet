@@ -94,6 +94,7 @@ class Runner:
         }
         response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
         response = response.json()
+        response_txt = response.choices[0].text.strip()  # GPT
 
         # LLAMA LOCAL
         # global llama_generator
@@ -115,8 +116,8 @@ class Runner:
         # print(response)
         # print('End Response')
 
-        # response_txt = response.choices[0].text.strip()  # GPT
-        response_txt = response['generation']  # Llama-2
+        # response_txt = response['generation']  # Llama-2
+
         print(response_txt, 'len of tokens:', len(response['tokens']))
 
         plist = []
