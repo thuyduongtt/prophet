@@ -261,7 +261,7 @@ class Runner:
                 # time.sleep(self.__C.SLEEP_PER_INFER)
 
             if self.__C.EXPORT_PROMPT:
-                json.dump(export_prompt_info, open(prompt_file_path, 'w'))
+                # json.dump(export_prompt_info, open(prompt_file_path, 'w'))
                 continue
 
             # vote
@@ -285,6 +285,7 @@ class Runner:
                     info_column.info = f'Acc: {rt_accuracy}'
 
         if self.__C.EXPORT_PROMPT:
+            json.dump(export_prompt_info, open(prompt_file_path, 'w'))
             print(f'Exported {len(export_prompt_info.keys())} prompts to', prompt_file_path)
             return
 
