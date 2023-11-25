@@ -171,8 +171,8 @@ class Runner:
             'cache.json'
         )
         if self.__C.RESUME:
-            print(f'Resume from {self.cache_file_path}')
             self.cache = json.load(open(self.cache_file_path, 'r'))
+            print(f'Resume from {self.cache_file_path} ({len(self.cache.keys())} items)')
 
         print(
             'Note that the accuracies printed before final evaluation (the last printed one) are rough, just for checking if the process is normal!!!\n')
