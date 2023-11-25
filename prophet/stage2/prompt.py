@@ -102,17 +102,15 @@ class Runner:
         # if llama_generator is None:
         #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
+        print(prompt_text)
+
         generator = Llama.build(
             ckpt_dir=self.__C.LLAMA_MODEL,
             tokenizer_path=self.__C.LLAMA_TOKENIZER,
             max_seq_len=4096,
             max_batch_size=1,
         )
-
         prompts: List[str] = [prompt_text]
-
-        print(prompt_text)
-
         response = generator.text_completion(
             prompts,
             temperature=self.__C.TEMPERATURE,
