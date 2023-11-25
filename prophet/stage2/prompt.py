@@ -75,51 +75,50 @@ class Runner:
         # )
 
         # LLAMA API
-        API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
-        API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
-        MODEL = "meta-llama/Llama-2-13b-chat-hf"
-
-        headers = {
-            "api-key": API_KEY,
-            "Content-Type": "application/json"
-        }
-
-        body = {
-            "model": MODEL,
-            "prompt": prompt_text,
-            "temperature": self.__C.TEMPERATURE,
-            "max_tokens": self.__C.MAX_TOKENS,
-            "logprobs": 1,
-            "stop": ["\n", "<|endoftext|>"]
-        }
-        response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
-        response = response.json()
-
-        print('Response')
-        print(response)
-        print('End Response')
-
-        response_txt = response.choices[0].text.strip()
+        # API_KEY = "f9392cca-fcac-4fc1-9126-ffa767da8649"
+        # API_BASE = "https://ews-emea.api.bosch.com/knowledge/insight-and-analytics/llms/d/v1"
+        # MODEL = "meta-llama/Llama-2-13b-chat-hf"
+        #
+        # headers = {
+        #     "api-key": API_KEY,
+        #     "Content-Type": "application/json"
+        # }
+        #
+        # body = {
+        #     "model": MODEL,
+        #     "prompt": prompt_text,
+        #     "temperature": self.__C.TEMPERATURE,
+        #     "max_tokens": self.__C.MAX_TOKENS,
+        #     "logprobs": 1,
+        #     "stop": ["\n", "<|endoftext|>"]
+        # }
+        # response = requests.post(API_BASE + '/completions', data=json.dumps(body), headers=headers)
+        # response = response.json()
+        # response_txt = response.choices[0].text.strip()
         # print(response_txt, 'len of tokens:', len(response['tokens']))
 
         # LLAMA LOCAL
-        # global llama_generator
-        # if llama_generator is None:
-        #     init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
-        #
-        # prompts: List[str] = [prompt_text]
-        #
-        # print(prompt_text)
-        #
-        # response = llama_generator.text_completion(
-        #     prompts,
-        #     temperature=self.__C.TEMPERATURE,
-        #     max_gen_len=self.__C.MAX_TOKENS,
-        #     logprobs=True
-        # )[0]
+        global llama_generator
+        if llama_generator is None:
+            init_llama(self.__C.LLAMA_MODEL, self.__C.LLAMA_TOKENIZER)
 
-        # response_txt = response['generation']  # Llama-2
-        # print(response_txt, 'len of tokens:', len(response['tokens']))
+        prompts: List[str] = [prompt_text]
+
+        print(prompt_text)
+
+        response = llama_generator.text_completion(
+            prompts,
+            temperature=self.__C.TEMPERATURE,
+            max_gen_len=self.__C.MAX_TOKENS,
+            logprobs=True
+        )[0]
+
+        # print('Response')
+        # print(response)
+        # print('End Response')
+
+        response_txt = response['generation']  # Llama-2
+        print(response_txt, 'len of tokens:', len(response['tokens']))
 
         plist = []
         for ii in range(len(response['tokens'])):
