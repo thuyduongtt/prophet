@@ -5,7 +5,7 @@
  
 #BSUB -n 2                        # Specify the number of CPUS
 #BSUB -M 8000                     # Specify the RAM PER CPU in MB that your job will use.
-#BSUB -gpu "num=1"                # Specify the number of GPUs
+#BSUB -gpu "num=2"                # Specify the number of GPUs
 #BSUB -R "span[hosts=1]"          # run on a single host
 #BSUB -q batch_v100
 

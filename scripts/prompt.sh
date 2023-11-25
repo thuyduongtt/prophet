@@ -22,6 +22,12 @@ while [[ $# -gt 0 ]]; do
 #    --openai_key)
 #      OPENAI_KEY="$2"
 #      shift 2;;
+    --llama_model)
+      LLAMA_MODEL="$2"
+      shift 2;;
+    --llama_tokenizer)
+      LLAMA_TOKENIZER="$2"
+      shift 2;;
     *)
       echo "Unknown argument: $1"
       exit 1;;
@@ -42,4 +48,6 @@ python main.py \
     --cfg configs/prompt.yml \
     --examples_path $EXAMPLES_PATH \
     --candidates_path $CANDIDATES_PATH \
-    --captions_path $CAPTIONS_PATH
+    --captions_path $CAPTIONS_PATH \
+    --llama_model $LLAMA_MODEL \
+    --llama_tokenizer $LLAMA_TOKENIZER
