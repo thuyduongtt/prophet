@@ -42,18 +42,7 @@ CAPTIONS_PATH=${CAPTIONS_PATH:-"assets/captions_okvqa.json"} # path to the capti
 #OPENAI_KEY=${OPENAI_KEY:-""} # path to the captions
 
 # CUDA_VISIBLE_DEVICES=$GPU \
-#python main.py \
-#    --task $TASK --run_mode prompt \
-#    --version $VERSION \
-#    --cfg configs/prompt.yml \
-#    --examples_path $EXAMPLES_PATH \
-#    --candidates_path $CANDIDATES_PATH \
-#    --captions_path $CAPTIONS_PATH \
-#    --llama_model $LLAMA_MODEL \
-#    --llama_tokenizer $LLAMA_TOKENIZER
-
-
-python -m torch.distributed.run --nproc_per_node 2 main.py \
+python main.py \
     --task $TASK --run_mode prompt \
     --version $VERSION \
     --cfg configs/prompt.yml \
@@ -62,3 +51,14 @@ python -m torch.distributed.run --nproc_per_node 2 main.py \
     --captions_path $CAPTIONS_PATH \
     --llama_model $LLAMA_MODEL \
     --llama_tokenizer $LLAMA_TOKENIZER
+
+
+#python -m torch.distributed.run --nproc_per_node 2 main.py \
+#    --task $TASK --run_mode prompt \
+#    --version $VERSION \
+#    --cfg configs/prompt.yml \
+#    --examples_path $EXAMPLES_PATH \
+#    --candidates_path $CANDIDATES_PATH \
+#    --captions_path $CAPTIONS_PATH \
+#    --llama_model $LLAMA_MODEL \
+#    --llama_tokenizer $LLAMA_TOKENIZER
