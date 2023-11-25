@@ -100,6 +100,8 @@ class Runner:
 
         prompts: List[str] = [prompt_text]
 
+        print(prompt_text)
+
         response = llama_generator.text_completion(
             prompts,
             temperature=self.__C.TEMPERATURE,
