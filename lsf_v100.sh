@@ -34,7 +34,7 @@ module load conda
 # cd ~/
  
 # Perform experiments
-source activate llama
+source activate prophet
 ./run.sh $LSB_JOBINDEX
 
 
