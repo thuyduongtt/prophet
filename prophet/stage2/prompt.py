@@ -106,7 +106,7 @@ class Runner:
                 temperature=self.__C.TEMPERATURE,
                 max_gen_len=self.__C.MAX_TOKENS,
                 logprobs=True
-            )
+            )[0]
 
             print('Response')
             print(response)
@@ -274,6 +274,7 @@ def init_llama(model_path, tokenizer_path):
         max_seq_len=512,
         max_batch_size=8,
     )
+    print('Model initialized.')
 
 
 def prompt_login_args(parser):
