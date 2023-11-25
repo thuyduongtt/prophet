@@ -269,7 +269,7 @@ def init_llama(model_path, tokenizer_path):
         ckpt_dir=model_path,
         tokenizer_path=tokenizer_path,
         max_seq_len=4096,
-        max_batch_size=8,
+        max_batch_size=1,
     )
     print('Model initialized.')
 
