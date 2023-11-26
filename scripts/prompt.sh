@@ -53,4 +53,4 @@ python -m torch.distributed.run --nproc_per_node 1 main.py \
     --resume \
     --cache_version balanced_10_prompt_2_v2 \
     --prompt_file ${VERSION}.json \
-    --export_prompt \
+#    --export_prompt \
