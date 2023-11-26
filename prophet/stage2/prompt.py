@@ -303,7 +303,7 @@ class Runner:
                 'answer': answer,
                 'prompt_info': prompt_info_list
             }
-            json.dump(self.cache, open(self.cache_file_path, 'w'))
+            # json.dump(self.cache, open(self.cache_file_path, 'w'))  # writing large object slows down the whole process
 
             ll = len(self.cache)
             if self.__C.EVAL_NOW and not self.__C.DEBUG:
@@ -315,6 +315,8 @@ class Runner:
             json.dump(export_prompt_info, open(prompt_file_path, 'w'))
             print(f'Exported {len(export_prompt_info.keys())} prompts to', prompt_file_path)
             return
+
+        json.dump(self.cache, open(self.cache_file_path, 'w'))
 
         print('There were', len(no_result_items), 'items with no result')
         print(no_result_items)

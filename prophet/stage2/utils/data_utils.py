@@ -59,7 +59,6 @@ class Qid2Data(Dict):
                 _ques_set = _ques_set['questions']
             ques_set += _ques_set
         qid_to_ques = {str(q['question_id']): q for q in ques_set}
-        print('There are', len(qid_to_ques.keys()), 'questions')
 
         if annotated:
             anno_set = []
@@ -129,12 +128,9 @@ class Qid2Data(Dict):
             for qid, item in self.items():
                 if 'similar_qids' not in item:
                     raise ValueError(f'qid {qid} does not have similar_qids')
-        
-        
 
     def __getitem__(self, __key):
         return self.qid_to_data[__key]
-    
 
     def get_caption(self, qid):
         caption = self[qid]['caption']
