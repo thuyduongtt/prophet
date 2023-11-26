@@ -168,19 +168,6 @@ class Runner:
         ## where results will be saved
         Path(self.__C.RESULT_DIR).mkdir(parents=True, exist_ok=True)
 
-        self.cache = {}
-        self.cache_file_path = os.path.join(
-            self.__C.RESULT_DIR,
-            'cache.json'
-        )
-        if self.__C.RESUME:
-            resume_cache_file_path = os.path.join(
-                self.__C.CACHE_DIR,
-                'cache.json'
-            )
-            self.cache = json.load(open(resume_cache_file_path, 'r'))
-            print(f'Resume from {resume_cache_file_path} ({len(self.cache.keys())} items)')
-
         print(
             'Note that the accuracies printed before final evaluation (the last printed one) are rough, just for checking if the process is normal!!!\n')
         self.trainset = Qid2Data(
@@ -194,6 +181,23 @@ class Runner:
             self.__C.EVAL_NOW,
             json.load(open(self.__C.EXAMPLES_PATH, 'r'))
         )
+
+        self.cache = {}
+        self.cache_file_path = os.path.join(
+            self.__C.RESULT_DIR,
+            'cache.json'
+        )
+        if self.__C.RESUME:
+            resume_cache_file_path = os.path.join(
+                self.__C.CACHE_DIR,
+                'cache.json'
+            )
+            # self.cache = json.load(open(resume_cache_file_path, 'r'))
+            cache_data = json.load(open(resume_cache_file_path, 'r'))
+            for qid in self.valset.qid_to_data:
+                if qid in cache_data:
+                    self.cache[qid] = cache_data[qid]
+            print(f'Resume from {resume_cache_file_path} ({len(self.cache.keys())} items)')
 
         # if 'aok' in self.__C.TASK:
         #     from evaluation.aokvqa_evaluate import AOKEvaluater as Evaluater
