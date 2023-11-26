@@ -212,8 +212,15 @@ class Runner:
             self.__C.RESULT_DIR,
             self.__C.PROMPT_FILE
         )
+
+        prompt_results_data = None
+        if not self.__C.EXPORT_PROMPT and self.__C.PROMPT_FILE is not None:
+            prompt_results_data = json.load(open(prompt_file_path))
+
         count = 0
         total = len(self.valset.qid_to_data) - len(self.cache.keys())
+        count_no_result = 0
+
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
                 continue
@@ -238,15 +245,34 @@ class Runner:
                 prompt_in_ctx = self.get_context(example_qids[(N_inctx * t):(N_inctx * t + N_inctx)])
                 prompt_text = prompt_in_ctx + prompt_query
 
+                key = f'{qid}___{t}'
+
                 # STEP 1. EXPORT PROMPTS
                 if self.__C.EXPORT_PROMPT:
-                    export_prompt_info[f'{qid}___{t}'] = {
+                    export_prompt_info[key] = {
                         'prompt': prompt_text
                     }
                     continue
 
                 # STEP 2. IMPORT PROMPT RESULTS
-                gen_text, gen_prob = self.gpt3_infer(prompt_text)
+                gen_text = 'No answer'
+                gen_prob = 0.0
+                if prompt_results_data is not None:
+                    if key in prompt_results_data:
+                        response = prompt_results_data[k]
+                        gen_text = response['generation'].strip()
+
+                        plist = []
+                        for ii in range(len(response['tokens'])):
+                            if response['tokens'][ii] in ["\n", "<|endoftext|>"]:
+                                break
+                            plist.append(response['logprobs'][ii])
+                        gen_prob = math.exp(sum(plist))
+
+                    else:
+                        count_no_result += 1
+
+                # gen_text, gen_prob = self.gpt3_infer(prompt_text)
 
                 ans = self.evaluater.prep_ans(gen_text)
                 if ans != '':
@@ -261,7 +287,7 @@ class Runner:
                 # time.sleep(self.__C.SLEEP_PER_INFER)
 
             if self.__C.EXPORT_PROMPT:
-                # json.dump(export_prompt_info, open(prompt_file_path, 'w'))
+                # json.dump(export_prompt_info, open(prompt_file_path, 'w'))  # writing large object slows down the whole process
                 continue
 
             # vote
@@ -289,10 +315,13 @@ class Runner:
             print(f'Exported {len(export_prompt_info.keys())} prompts to', prompt_file_path)
             return
 
+        print('There were', count_no_result, 'items with no result')
+
         self.evaluater.save(self.__C.RESULT_PATH)
         if self.__C.EVAL_NOW:
             with open(self.__C.LOG_PATH, 'a+') as logfile:
                 self.evaluater.evaluate(logfile)
+
 
 
 def init_llama(model_path, tokenizer_path):
