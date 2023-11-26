@@ -219,7 +219,7 @@ class Runner:
 
         count = 0
         total = len(self.valset.qid_to_data) - len(self.cache.keys())
-        count_no_result = 0
+        no_result_items = []
 
         for qid in progress.track(self.valset.qid_to_data, description="Working...  "):
             if qid in self.cache:
@@ -259,7 +259,7 @@ class Runner:
                 gen_prob = 0.0
                 if prompt_results_data is not None:
                     if key in prompt_results_data:
-                        response = prompt_results_data[k]
+                        response = prompt_results_data[key]
                         gen_text = response['generation'].strip()
 
                         plist = []
@@ -270,7 +270,7 @@ class Runner:
                         gen_prob = math.exp(sum(plist))
 
                     else:
-                        count_no_result += 1
+                        no_result_items.append(key)
 
                 # gen_text, gen_prob = self.gpt3_infer(prompt_text)
 
@@ -315,7 +315,8 @@ class Runner:
             print(f'Exported {len(export_prompt_info.keys())} prompts to', prompt_file_path)
             return
 
-        print('There were', count_no_result, 'items with no result')
+        print('There were', len(no_result_items), 'items with no result')
+        print(no_result_items)
 
         self.evaluater.save(self.__C.RESULT_PATH)
         if self.__C.EVAL_NOW:
