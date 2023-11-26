@@ -197,7 +197,7 @@ class Runner:
             for qid in self.valset.qid_to_data:
                 if qid in cache_data:
                     self.cache[qid] = cache_data[qid]
-            print(f'Resume from {resume_cache_file_path} ({len(self.cache.keys())} items)')
+            print(f'Resume from {resume_cache_file_path} ({len(self.cache.keys())} / {len(cache_data.keys())} items)')
 
         # if 'aok' in self.__C.TASK:
         #     from evaluation.aokvqa_evaluate import AOKEvaluater as Evaluater
