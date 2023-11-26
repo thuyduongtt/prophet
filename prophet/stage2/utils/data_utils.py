@@ -59,6 +59,7 @@ class Qid2Data(Dict):
                 _ques_set = _ques_set['questions']
             ques_set += _ques_set
         qid_to_ques = {str(q['question_id']): q for q in ques_set}
+        print('There are', len(qid_to_ques.keys()), 'questions')
 
         if annotated:
             anno_set = []
