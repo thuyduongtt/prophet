@@ -51,6 +51,6 @@ python -m torch.distributed.run --nproc_per_node 1 main.py \
     --candidates_path $CANDIDATES_PATH \
     --captions_path $CAPTIONS_PATH \
     --resume \
-    --cache_version balanced_10_prompt_2_v2 \
+    --cache_version unbalanced_prompt_2_v6 \
     --prompt_file ${VERSION}_results.json \
 #    --export_prompt

@@ -163,6 +163,13 @@ class VQA:
         anns = json.load(open(resFile))
         assert type(anns) == list, 'results is not an array of objects'
         annsQuesIds = [ann['question_id'] for ann in anns]
+
+        set_a = set(annsQuesIds)
+        set_b = set(self.getQuesIds())
+        print('set_a:', len(set_a), '|', 'set_b:', len(set_b))
+        print('A is subset of B:', set_a.issubset(set_b))
+        print('B is subset of A:', set_b.issubset(set_a))
+
         assert set(annsQuesIds) == set(self.getQuesIds()), \
             'Results do not correspond to current VQA set. Either the results do not have predictions for all question ids in annotation file or there is atleast one question id that does not belong to the question ids in the annotation file.'
         for ann in anns:
