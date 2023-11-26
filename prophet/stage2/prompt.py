@@ -215,6 +215,7 @@ class Runner:
 
         prompt_results_data = None
         if not self.__C.EXPORT_PROMPT and self.__C.PROMPT_FILE is not None:
+            print('Import results from', prompt_file_path)
             prompt_results_data = json.load(open(prompt_file_path))
 
         count = 0
