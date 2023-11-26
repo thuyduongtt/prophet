@@ -296,13 +296,11 @@ class Runner:
                 continue
 
             # vote
-            print('Voting ...')
             if len(ans_pool) == 0:
                 answer = self.valset.get_topk_candidates(qid, 1)[0]['answer']
             else:
                 answer = sorted(ans_pool.items(), key=lambda x: x[1], reverse=True)[0][0]
 
-            print('Saving answer ...')
             self.evaluater.add(qid, answer)
             self.cache[qid] = {
                 'question_id': qid,
@@ -313,7 +311,6 @@ class Runner:
 
             ll = len(self.cache)
             if self.__C.EVAL_NOW and not self.__C.DEBUG:
-                print('Evaluating ...')
                 if ll > 21 and ll % 10 == 0:
                     rt_accuracy = self.valset.rt_evaluate(self.cache.values())
                     info_column.info = f'Acc: {rt_accuracy}'
