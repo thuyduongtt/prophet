@@ -50,7 +50,7 @@ python -m torch.distributed.run --nproc_per_node 1 main.py \
     --examples_path $EXAMPLES_PATH \
     --candidates_path $CANDIDATES_PATH \
     --captions_path $CAPTIONS_PATH \
+    --prompt_file ${VERSION}.json \
+    --export_prompt \
 #    --resume \
 #    --cache_version unbalanced_prompt_2_v6 \
-    --prompt_file ${VERSION}.json \
-    --export_prompt
