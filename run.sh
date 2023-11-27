@@ -1,7 +1,7 @@
 #!/bin/bash
 
 N=2
-VERSION=6
+VERSION=7
 
 case $1 in
   1)
