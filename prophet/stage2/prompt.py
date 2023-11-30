@@ -323,7 +323,7 @@ class Runner:
         json.dump(self.cache, open(self.cache_file_path, 'w'))
 
         print('There were', len(no_result_items), 'items with no result')
-        print(no_result_items)
+        # print(no_result_items)
 
         self.evaluater.save(self.__C.RESULT_PATH)
         if self.__C.EVAL_NOW:
