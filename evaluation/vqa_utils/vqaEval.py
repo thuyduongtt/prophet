@@ -91,17 +91,28 @@ class VQAEval:
 			resAns      = self.processDigitArticle(resAns)
 			gtAcc  = []
 			gtAnswers = [ans['answer'] for ans in gts[quesId]['answers']]
-			print('gtAnswers:', gtAnswers)
-			if len(set(gtAnswers)) > 1:
-				for ansDic in gts[quesId]['answers']:
-					ansDic['answer'] = self.processPunctuation(ansDic['answer'])
-			for gtAnsDatum in gts[quesId]['answers']:
-				otherGTAns = [item for item in gts[quesId]['answers'] if item!=gtAnsDatum]
-				matchingAns = [item for item in otherGTAns if item['answer']==resAns]
-				acc = min(1, float(len(matchingAns))/1)
-				gtAcc.append(acc)
 
-				print('resAns:', resAns, 'otherGTAns:', otherGTAns, 'matchingAns:', matchingAns, 'acc:', acc)
+			# if len(set(gtAnswers)) > 1:
+			# 	for ansDic in gts[quesId]['answers']:
+			# 		ansDic['answer'] = self.processPunctuation(ansDic['answer'])
+			# for gtAnsDatum in gts[quesId]['answers']:
+			# 	otherGTAns = [item for item in gts[quesId]['answers'] if item!=gtAnsDatum]
+			# 	matchingAns = [item for item in otherGTAns if item['answer']==resAns]
+			# 	acc = min(1, float(len(matchingAns))/1)
+			# 	gtAcc.append(acc)
+			#
+			# 	print('resAns:', resAns, 'otherGTAns:', otherGTAns, 'matchingAns:', matchingAns, 'acc:', acc)
+
+			gtAnswers = [ans.lower() for ans in gtAnswers]
+			acc = resAns in gtAnswers
+			if acc < 1.0 and len(resAns) == 8:
+				for ans in gtAnswers:
+					if resAns in ans:
+						acc = 1.0
+						break
+
+			gtAcc.append(acc)
+			print('gtAnswers:', gtAnswers, 'resAns:', resAns, 'acc:', acc)
 
 			quesType    = gts[quesId]['question_type']
 			ansType     = gts[quesId]['answer_type']
