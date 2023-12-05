@@ -91,15 +91,17 @@ class VQAEval:
 			resAns      = self.processDigitArticle(resAns)
 			gtAcc  = []
 			gtAnswers = [ans['answer'] for ans in gts[quesId]['answers']]
-			if len(set(gtAnswers)) > 1: 
+			if len(set(gtAnswers)) > 1:
 				for ansDic in gts[quesId]['answers']:
 					ansDic['answer'] = self.processPunctuation(ansDic['answer'])
 			for gtAnsDatum in gts[quesId]['answers']:
 				otherGTAns = [item for item in gts[quesId]['answers'] if item!=gtAnsDatum]
 				matchingAns = [item for item in otherGTAns if item['answer']==resAns]
 				acc = min(1, float(len(matchingAns))/1)
-				print(acc)
 				gtAcc.append(acc)
+
+				print('resAns:', resAns, 'matchingAns:', matchingAns, 'acc:', acc)
+
 			quesType    = gts[quesId]['question_type']
 			ansType     = gts[quesId]['answer_type']
 			avgGTAcc = float(sum(gtAcc))/len(gtAcc)
