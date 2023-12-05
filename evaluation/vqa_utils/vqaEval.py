@@ -100,7 +100,7 @@ class VQAEval:
 				acc = min(1, float(len(matchingAns))/1)
 				gtAcc.append(acc)
 
-				print('resAns:', resAns, 'matchingAns:', matchingAns, 'acc:', acc)
+				print('resAns:', resAns, 'otherGTAns:', otherGTAns, 'matchingAns:', matchingAns, 'acc:', acc)
 
 			quesType    = gts[quesId]['question_type']
 			ansType     = gts[quesId]['answer_type']
