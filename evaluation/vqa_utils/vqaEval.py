@@ -105,11 +105,11 @@ class VQAEval:
 
 			gtAnswers = [ans.lower() for ans in gtAnswers]
 			acc = resAns in gtAnswers
-			if acc < 1.0 and len(resAns) == 8:
-				for ans in gtAnswers:
-					if resAns in ans:
-						acc = 1.0
-						break
+			# if acc < 1.0 and len(resAns) == 8:
+			# 	for ans in gtAnswers:
+			# 		if resAns in ans:
+			# 			acc = 1.0
+			# 			break
 
 			gtAcc.append(acc)
 			print('gtAnswers:', gtAnswers, 'resAns:', resAns, 'acc:', acc)
