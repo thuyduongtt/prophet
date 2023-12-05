@@ -309,11 +309,11 @@ class Runner:
             }
             # json.dump(self.cache, open(self.cache_file_path, 'w'))  # writing large object slows down the whole process
 
-            ll = len(self.cache)
-            if self.__C.EVAL_NOW and not self.__C.DEBUG:
-                if ll > 21 and ll % 10 == 0:
-                    rt_accuracy = self.valset.rt_evaluate(self.cache.values())
-                    info_column.info = f'Acc: {rt_accuracy}'
+            # ll = len(self.cache)
+            # if self.__C.EVAL_NOW and not self.__C.DEBUG:
+            #     if ll > 21 and ll % 10 == 0:
+            #         rt_accuracy = self.valset.rt_evaluate(self.cache.values())
+            #         info_column.info = f'Acc: {rt_accuracy}'
 
         if self.__C.EXPORT_PROMPT:
             json.dump(export_prompt_info, open(prompt_file_path, 'w'))
