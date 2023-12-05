@@ -112,7 +112,7 @@ class VQAEval:
 			# 			break
 
 			gtAcc.append(acc)
-			print('gtAnswers:', gtAnswers, 'resAns:', resAns, 'acc:', acc)
+			# print('gtAnswers:', gtAnswers, 'resAns:', resAns, 'acc:', acc)
 
 			quesType    = gts[quesId]['question_type']
 			ansType     = gts[quesId]['answer_type']
